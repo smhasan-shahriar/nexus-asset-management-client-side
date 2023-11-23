@@ -1,8 +1,9 @@
 import React, { useState } from "react";
-import { NavLink } from "react-router-dom";
+import { NavLink, useNavigate } from "react-router-dom";
 
 const Navbar = () => {
   const [isOpen, setIsOpen] = useState(false);
+  const navigate = useNavigate();
   const navLinks = (
     <>
       <li>
@@ -54,7 +55,7 @@ const Navbar = () => {
         <div className="navbar-center hidden lg:flex">
           <ul className="menu menu-horizontal px-1">{navLinks}</ul>
         </div>
-        <div className="navbar-end">
+        <div onClick={() => navigate('/login')} className="navbar-end">
           <a className="btn">Login</a>
         </div>
       </div>

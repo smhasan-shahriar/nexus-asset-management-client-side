@@ -1,56 +1,25 @@
-import React from "react";
 import { useForm } from "react-hook-form";
 import { FaGoogle } from "react-icons/fa";
 import useAuth from "../../Hooks/useAuth";
-import { useNavigate } from "react-router-dom";
 
-const SignUpEmployee = () => {
-    const navigate = useNavigate()
-    const { createUser, updateUserProfile, socialLogIn } = useAuth();
-  const {
-    register,
-    handleSubmit,
-    formState: { errors },
-  } = useForm();
-  const handleSocialLogin = () => {
-    socialLogIn()
-    .then(result => {
-        console.log(result.user)
-        navigate('/')
-    })
-  }
-  const onSubmit = (data) => {
-    createUser(data.email, data.password)
-    .then(result => {
-        updateUserProfile(data.name) 
-        .then(() => {
-            console.log(result.user);
-            navigate('/')
-        })
-    })
-
-  };
-  return (
-    <div className="flex">
+const Login = () => {
+    const {
+        register,
+        handleSubmit,
+        formState: { errors },
+      } = useForm();
+      const onSubmit = (data) => {
+        console.log(data);
+      };
+    return (
+        <div className="flex">
       <div className="hero min-h-screen bg-gradient-to-r from-cyan-500 to-blue-500">
         <div className="hero-content flex-col gap-5">
           <div className="text-center lg:text-left">
-            <h1 className="text-5xl font-bold">Join as Employee now!</h1>
+            <h1 className="text-5xl font-bold">Log In Now!</h1>
           </div>
-          <div className="card shrink-0 w-full max-w-sm shadow-2xl bg-base-100">
+          <div className="card w-full shadow-2xl bg-base-100">
             <form className="card-body" onSubmit={handleSubmit(onSubmit)}>
-              <div className="form-control">
-                <label className="label">
-                  <span className="label-text">Full Name</span>
-                </label>
-                <input
-                  {...register("name")}
-                  type="text"
-                  placeholder="Full Name"
-                  className="input input-bordered"
-                  required
-                />
-              </div>
               <div className="form-control">
                 <label className="label">
                   <span className="label-text">Email</span>
@@ -96,26 +65,14 @@ const SignUpEmployee = () => {
                   </p>
                 )}
               </div>
-              <div className="form-control">
-                <label className="label">
-                  <span className="label-text">Date of Birth</span>
-                </label>
-                <input
-                  {...register("dateofbirth")}
-                  type="date"
-                  placeholder="password"
-                  className="input input-bordered"
-                  required
-                />
-              </div>
               <input
                 className="btn btn-primary"
                 type="submit"
-                value="Sign Up"
+                value="Log In"
               />
             </form>
-            <div onClick={handleSocialLogin} className="flex flex-col justify-center items-center -mt-5">
-                <h3 className="font-semibold">Sign Up with Social</h3>
+            <div className="flex flex-col justify-center items-center -mt-5">
+                <h3 className="font-semibold">Log In with Social</h3>
                 <hr className="border w-2/3 mt-2"/>
             <button className="btn bg-red-500 text-white my-5">
                 <FaGoogle />
@@ -127,7 +84,7 @@ const SignUpEmployee = () => {
         </div>
       </div>
     </div>
-  );
+    );
 };
 
-export default SignUpEmployee;
+export default Login;
