@@ -3,9 +3,12 @@ import { useForm } from "react-hook-form";
 import { FaGoogle } from "react-icons/fa";
 import useAuth from "../../Hooks/useAuth";
 import { useNavigate } from "react-router-dom";
+import axios from "axios";
+import useAxiosPublic from "../../Hooks/useAxiosPublic";
 
 const SignUpEmployee = () => {
-    const navigate = useNavigate()
+    const navigate = useNavigate();
+    const axiosPublic = useAxiosPublic()
     const { createUser, updateUserProfile, socialLogIn } = useAuth();
   const {
     register,
@@ -19,15 +22,38 @@ const SignUpEmployee = () => {
         navigate('/')
     })
   }
-  const onSubmit = (data) => {
-    createUser(data.email, data.password)
-    .then(result => {
-        updateUserProfile(data.name) 
-        .then(() => {
-            console.log(result.user);
-            navigate('/')
-        })
+  const onSubmit = async (data) => {
+    const image_hosting_key = import.meta.env.VITE_IMAGE_API;
+    const image_hosting_api = `https://api.imgbb.com/1/upload?key=${image_hosting_key}`;
+    const imageFile = {image: data.image[0]};
+    const response = await axios.post(image_hosting_api, imageFile, {
+      headers: {'content-type': 'multipart/form-data'}
     })
+    if(response.data.success){
+      const newUser = {
+        name: data.name,
+        email: data.email,
+        image: response.data.data.display_url,
+        role: "employee",
+        dateOfBirth: data.dateOfBirth
+      }
+      console.log(newUser)
+      createUser(data.email, data.password)
+      .then(result => {
+          updateUserProfile(data.name, newUser.image) 
+          .then(() => {
+              axiosPublic.post('/users', newUser)
+              .then(res => {
+                console.log(res.data)
+              })
+              navigate('/')
+          })
+      })
+      
+    }
+   
+    
+
 
   };
   return (
@@ -35,9 +61,9 @@ const SignUpEmployee = () => {
       <div className="hero min-h-screen bg-gradient-to-r from-cyan-500 to-blue-500">
         <div className="hero-content flex-col gap-5">
           <div className="text-center lg:text-left">
-            <h1 className="text-5xl font-bold">Join as Employee now!</h1>
+            <h1 className="text-5xl font-bold text-white">Join as Employee now!</h1>
           </div>
-          <div className="card shrink-0 w-full max-w-sm shadow-2xl bg-base-100">
+          <div className="card shrink-0 w-full shadow-2xl bg-base-100">
             <form className="card-body" onSubmit={handleSubmit(onSubmit)}>
               <div className="form-control">
                 <label className="label">
@@ -51,6 +77,12 @@ const SignUpEmployee = () => {
                   required
                 />
               </div>
+              <div className="form-control">
+                  <label className="label">
+                    <span className="label-text">Profile Picture</span>
+                  </label>
+                  <input {...register("image")} type="file" className="file-input file-input-bordered w-full border" />
+                </div>
               <div className="form-control">
                 <label className="label">
                   <span className="label-text">Email</span>
@@ -101,7 +133,7 @@ const SignUpEmployee = () => {
                   <span className="label-text">Date of Birth</span>
                 </label>
                 <input
-                  {...register("dateofbirth")}
+                  {...register("dateOfBirth")}
                   type="date"
                   placeholder="password"
                   className="input input-bordered"

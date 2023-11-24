@@ -18,7 +18,7 @@ const SignUpAdmin = () => {
         <div className="hero min-h-screen bg-gradient-to-r from-cyan-500 to-blue-500">
           <div className="hero-content flex-col gap-5">
             <div className="text-center lg:text-left">
-              <h1 className="text-5xl font-bold">Join as HR/Admin now!</h1>
+              <h1 className="text-5xl font-bold text-white">Join as HR/Admin now!</h1>
             </div>
             <div className="w-full shadow-2xl bg-base-100">
               <form className="card-body" onSubmit={handleSubmit(onSubmit)}>
