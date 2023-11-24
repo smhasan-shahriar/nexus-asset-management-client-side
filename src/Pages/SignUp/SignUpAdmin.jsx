@@ -45,7 +45,7 @@ const SignUpAdmin = () => {
               axiosPublic.post("/users", newAdminUser).then((res) => {
                 console.log(res.data);
               });
-              navigate("/");
+              navigate("/payment");
             });
           });
         }
