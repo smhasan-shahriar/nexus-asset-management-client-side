@@ -1,8 +1,28 @@
 import { useForm } from "react-hook-form";
 import { FaGoogle } from "react-icons/fa";
 import useAuth from "../../Hooks/useAuth";
+import { useNavigate } from "react-router-dom";
+import useAxiosPublic from "../../Hooks/useAxiosPublic";
 
 const Login = () => {
+  const {logIn, socialLogIn} = useAuth();
+  const navigate = useNavigate();
+  const axiosPublic = useAxiosPublic()
+  const handleSocialLogin = () => {
+    socialLogIn().then((result) => {
+      console.log(result.user);
+      const newUser = {
+        name: result.user.displayName,
+        email: result.user.email,
+        image: result.user.photoURL,
+        role: "employee",
+      };
+      axiosPublic.post("/users", newUser).then((res) => {
+        console.log(res.data);
+      });
+      navigate("/");
+    });
+  };
     const {
         register,
         handleSubmit,
@@ -10,6 +30,11 @@ const Login = () => {
       } = useForm();
       const onSubmit = (data) => {
         console.log(data);
+        logIn(data.email, data.password)
+        .then(result => {
+          console.log(result.user)
+          navigate('/')
+        })
       };
     return (
         <div className="flex">
@@ -71,7 +96,7 @@ const Login = () => {
                 value="Log In"
               />
             </form>
-            <div className="flex flex-col justify-center items-center -mt-5">
+            <div onClick={handleSocialLogin} className="flex flex-col justify-center items-center -mt-5">
                 <h3 className="font-semibold">Log In with Social</h3>
                 <hr className="border w-2/3 mt-2"/>
             <button className="btn bg-red-500 text-white my-5">

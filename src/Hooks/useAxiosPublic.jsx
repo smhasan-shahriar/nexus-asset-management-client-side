@@ -2,7 +2,7 @@ import axios from 'axios';
 import React from 'react';
 
 const instance = axios.create({
-    baseURL: 'https://some-domain.com/api/'
+    baseURL: 'http://localhost:5000'
   });
 
 const useAxiosPublic = () => {
