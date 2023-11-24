@@ -9,6 +9,10 @@ export const AuthContext = createContext(null);
 const AuthProvider = ({children}) => {
     const [user, setUser] = useState(null);
     const axiosPublic = useAxiosPublic()
+    const [payment, setPayment] = useState("basic");
+    const updatePayment = (newAmount) => {
+      setPayment(newAmount)
+    }
     const [loading, setLoading] = useState(true);
     const createUser = (email, password) => {
         setLoading(true);
@@ -69,6 +73,8 @@ const AuthProvider = ({children}) => {
         socialLogIn,
         logOut,
         updateUserProfile,
+        payment, 
+        updatePayment
       };
     return (
         <div>

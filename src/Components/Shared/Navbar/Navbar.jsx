@@ -8,13 +8,16 @@ const Navbar = () => {
   const [isOpen, setIsOpen] = useState(false);
   const { user, loading, logOut } = useAuth();
   const navigate = useNavigate();
-  const role = useRole();
-  console.log(user, role);
+  const newUser = useRole()[0];
+  console.log(user, newUser);
   const handleLogOut = () => {
     logOut()
     .then (() => {
       toast('logged out')
     })
+  }
+  if(loading){
+    return <p>...........</p>
   }
 
   const navLinks = (
@@ -33,7 +36,7 @@ const Navbar = () => {
         </>
       )}
 
-      {user && role[0] === "employee" && (
+      {user && newUser?.role ==="employee" && (
         <>
           <li>
             <NavLink to="/myteam">My Team</NavLink>
@@ -52,7 +55,7 @@ const Navbar = () => {
           </li>
         </>
       )}
-      {user && role[0] === "admin" && (
+      {user && newUser?.role ==="admin" &&  (
         <>
           <li>
             <NavLink to="/employees">My Employee List</NavLink>

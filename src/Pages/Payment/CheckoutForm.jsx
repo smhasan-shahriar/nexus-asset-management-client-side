@@ -6,9 +6,10 @@ import useAuth from "../../Hooks/useAuth";
 import { toast } from "react-toastify";
 
 
-const CheckoutForm = () => {
+const CheckoutForm = ({paymentDue}) => {
     const [error, setError] = useState('');
-    const {user} = useAuth()
+    const {user, payment} = useAuth()
+    console.log(user)
     const [clientSecret, setClientSecret] = useState('');
     const [transactionId, setTransactionId] = useState('');
     const stripe = useStripe();
@@ -16,7 +17,7 @@ const CheckoutForm = () => {
     const navigate = useNavigate();
     const axiosPublic = useAxiosPublic()
 
-    const totalPrice = 10;
+    const totalPrice = paymentDue;
 
     useEffect(()=> {
         axiosPublic.post('/create-payment-intent', {price: totalPrice})

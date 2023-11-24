@@ -5,9 +5,9 @@ import useAuth from '../../Hooks/useAuth';
 import useAxiosPublic from '../../Hooks/useAxiosPublic';
 import { toast } from 'react-toastify';
 import axios from 'axios';
-import { useNavigate } from 'react-router-dom';
+import { Navigate, useNavigate } from 'react-router-dom';
 const SignUpAdmin = () => {
-    const { createUser, updateUserProfile, socialLogIn } = useAuth();
+    const { createUser, updateUserProfile, socialLogIn, updatePayment } = useAuth();
     const currentDate = new Date();
     const axiosPublic = useAxiosPublic();
     const navigate = useNavigate()
@@ -45,11 +45,16 @@ const SignUpAdmin = () => {
               axiosPublic.post("/users", newAdminUser).then((res) => {
                 console.log(res.data);
               });
-              navigate("/payment");
+              const pack = newAdminUser.package
+              updatePayment(pack)
+              navigate('/payment');
             });
           });
         }
       };
+      const handleTest = () => {
+        return <Navigate to="/payment"></Navigate>
+      }
     return (
         <div className="flex">
         <div className="hero min-h-screen bg-gradient-to-r from-cyan-500 to-blue-500">
@@ -167,6 +172,7 @@ const SignUpAdmin = () => {
               </form>
               
             </div>
+            <button onClick={handleTest} className='btn btn-secondary'>check</button>
           </div>
         </div>
       </div>

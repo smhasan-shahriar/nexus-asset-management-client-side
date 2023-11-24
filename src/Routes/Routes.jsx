@@ -6,6 +6,7 @@ import SignUpEmployee from '../Pages/SignUp/SignUpEmployee';
 import SignUpAdmin from '../Pages/SignUp/SignUpAdmin';
 import Login from '../Pages/Login/Login';
 import Payment from '../Pages/Payment/Payment';
+import AddAsset from '../Pages/AddAsset/AddAsset';
 
 
 export const router = createBrowserRouter([
@@ -32,6 +33,10 @@ export const router = createBrowserRouter([
         {
           path: "/payment",
           element: <Payment></Payment>
+        },
+        {
+          path: "/addasset",
+          element: <AddAsset></AddAsset>
         }
       ]
     },

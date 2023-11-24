@@ -29,6 +29,7 @@ const SignUpEmployee = () => {
       axiosPublic.post("/users", newUser).then((res) => {
         console.log(res.data);
       });
+      
       navigate("/");
     });
   };

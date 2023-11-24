@@ -6,7 +6,7 @@ import { useQuery } from '@tanstack/react-query';
 const useRole = () => {
     const axiosPublic = useAxiosPublic();
     const {user, loading} = useAuth();
-    const {data: role, isPending: pending} = useQuery({
+    const {data: checkUser, isPending: pending} = useQuery({
         queryKey: [user?.email, 'isAdmin'],
         enabled: !loading,
         queryFn: async () => {
@@ -15,7 +15,7 @@ const useRole = () => {
         }
     })
     
-    return [role, pending]
+    return [checkUser, pending]
     
 
 };
