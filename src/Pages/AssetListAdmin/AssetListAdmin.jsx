@@ -69,7 +69,7 @@ const AssetListAdmin = () => {
                 <th>{index + 1}</th>
                 <td>{asset.assetName}</td>
                 <td>{asset.assetQuantity}</td>
-                <td>{asset.dateAdded}</td>
+                <td>{new Date(asset.dateAdded).toLocaleDateString()}</td>
                 <td className=""><button  className="btn bg-orange-500 text-white">Update</button></td>
                 <td className=""><button  className="btn bg-red-600 text-white">Delete</button></td>
               </tr>)
