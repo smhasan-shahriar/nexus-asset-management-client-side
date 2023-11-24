@@ -7,12 +7,15 @@ import SignUpAdmin from '../Pages/SignUp/SignUpAdmin';
 import Login from '../Pages/Login/Login';
 import Payment from '../Pages/Payment/Payment';
 import AddAsset from '../Pages/AddAsset/AddAsset';
+import AssetListAdmin from '../Pages/AssetListAdmin/AssetListAdmin';
+import ErrorPage from '../Pages/ErrorPage/ErrorPage';
 
 
 export const router = createBrowserRouter([
     {
       path: "/",
       element: <MainLayout></MainLayout>,
+      errorElement: <ErrorPage></ErrorPage>,
       children: [
         {
             path: "/",
@@ -37,6 +40,10 @@ export const router = createBrowserRouter([
         {
           path: "/addasset",
           element: <AddAsset></AddAsset>
+        },
+        {
+          path: "/assets",
+          element: <AssetListAdmin></AssetListAdmin>
         }
       ]
     },

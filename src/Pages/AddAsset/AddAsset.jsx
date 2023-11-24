@@ -1,14 +1,30 @@
 import React from 'react';
+import useAxiosPublic from '../../Hooks/useAxiosPublic';
+import { toast } from 'react-toastify';
+import useAuth from '../../Hooks/useAuth';
+import useRole from '../../Hooks/useRole';
 
 const AddAsset = () => {
+    const axiosPublic = useAxiosPublic()
+    const [user] = useRole();
+    const currentDate = new Date();
+    console.log(user)
     const handleSubmit = e => {
         e.preventDefault();
         const form = e.target;
         const assetName = form.name.value;
         const assetType = form.type.value;
         const assetQuantity = form.quantity.value;
-        const newAsset = {assetName, assetType, assetQuantity}
+        const companyName = user?.companyName;
+        const dateAdded = currentDate;
+        const newAsset = {assetName, assetType, assetQuantity, companyName, dateAdded}
         console.log(newAsset)
+        axiosPublic.post("/create-asset", newAsset)
+        .then(res => {
+            if(res.data.insertedId) {
+                toast("Asset successfully added")
+            }
+        })
     }
     return (
         <div>
@@ -54,6 +70,7 @@ const AddAsset = () => {
           className="btn normal-case text-lg font-semibold bg-black text-white my-5"
           type="submit"
           value="Add"
+          disabled = {!user}
         />
       </form>
         </div>

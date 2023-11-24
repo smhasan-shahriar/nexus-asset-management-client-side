@@ -58,8 +58,9 @@ const AuthProvider = ({children}) => {
             }
             else{
               localStorage.removeItem('secret-token')
+              setLoading(false)
             }
-            console.log(currentUser);
+
             
         });
         return () =>  unsubscribe();

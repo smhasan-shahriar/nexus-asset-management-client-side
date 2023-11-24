@@ -9,7 +9,6 @@ const Navbar = () => {
   const { user, loading, logOut } = useAuth();
   const navigate = useNavigate();
   const newUser = useRole()[0];
-  console.log(user, newUser);
   const handleLogOut = () => {
     logOut()
     .then (() => {
