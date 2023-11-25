@@ -11,11 +11,10 @@ const RequestAsset = () => {
             return response.data;
         }
     })
-    console.log(assetList)
   return (
     <div>
       <h1 className="text-5xl w-full bg-black flex justify-center items-center text-white py-20">
-        Asset List
+        Request for an Asset
       </h1>
       <div className=" rounded-lg lg:text-right my-5">
         <form className="mx-auto flex justify-between items-center flex-col lg:flex-row gap-5">
@@ -44,6 +43,7 @@ const RequestAsset = () => {
         </form>
       </div>
       <div>
+        <h1 className='text-2xl font-bold mx-auto text-center my-5'>Asset List</h1>
       <div className="overflow-x-auto">
   <table className="table table-zebra">
     {/* head */}

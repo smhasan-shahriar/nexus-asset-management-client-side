@@ -10,6 +10,7 @@ import AddAsset from '../Pages/AddAsset/AddAsset';
 import AssetListAdmin from '../Pages/AssetListAdmin/AssetListAdmin';
 import ErrorPage from '../Pages/ErrorPage/ErrorPage';
 import RequestAsset from '../Pages/RequestAsset/RequestAsset';
+import MakeCustomRequest from '../Pages/MakeCustomRequest/MakeCustomRequest';
 
 
 export const router = createBrowserRouter([
@@ -49,6 +50,10 @@ export const router = createBrowserRouter([
         {
           path: "/requestasset",
           element: <RequestAsset></RequestAsset>
+        },
+        {
+          path: "/requestcustomasset",
+          element: <MakeCustomRequest></MakeCustomRequest>
         }
 
       ]

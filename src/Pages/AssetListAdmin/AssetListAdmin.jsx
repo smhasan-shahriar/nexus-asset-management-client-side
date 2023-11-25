@@ -1,16 +1,24 @@
 import { useQuery } from "@tanstack/react-query";
-import React from "react";
+import React, { useState } from "react";
 import useAxiosPublic from "../../Hooks/useAxiosPublic";
 
 
 const AssetListAdmin = () => {
     const axiosPublic = useAxiosPublic()
+    const [quantityIndex, setQuantityIndex] = useState('')
+    const [searchField, setSearchField] = useState('')
+    const getAssets = async () => {
+      const response = await axiosPublic.get(`/assets?sortField=assetQuantity&sortOrder=${quantityIndex}&search=${searchField}`)
+      return response.data;
+    }
+    const handleSubmit = e => {
+      e.preventDefault();
+      const search = e.target.search.value; 
+      setSearchField(search)
+    }
     const {data: assetList} = useQuery({
-        queryKey: ["allAssets"],
-        queryFn: async () => {
-            const response = await axiosPublic.get("/assets")
-            return response.data;
-        }
+        queryKey: ["allAssets", quantityIndex, searchField],
+        queryFn: getAssets
     })
     console.log(assetList)
   return (
@@ -19,7 +27,7 @@ const AssetListAdmin = () => {
         Asset List
       </h1>
       <div className=" rounded-lg lg:text-right my-5">
-        <form className="mx-auto flex justify-between items-center flex-col lg:flex-row gap-5">
+        <form onSubmit={handleSubmit} className="mx-auto flex justify-between items-center flex-col lg:flex-row gap-5">
           <div className="flex items-center gap-3">
             <label className="label">
               <span className="label-text">Filter by Status</span>
@@ -29,10 +37,15 @@ const AssetListAdmin = () => {
               <option value="Approved">Approved</option>
             </select>
           </div>
-          <div>
-            <button type="button" className="btn">
-              Sort By Quantity: High to Low
-            </button>
+          <div className="flex items-center gap-3">
+            <label className="label">
+              <span className="label-text">Sort by Quantity</span>
+            </label>
+            <select onChange={e => setQuantityIndex(e.target.value)} defaultValue="" name="category" className="input input-bordered">
+              <option value="">No Selection</option>
+              <option value="asc">low to high</option>
+              <option value="desc">high to low</option>
+            </select>
           </div>
           <div>
             <input
