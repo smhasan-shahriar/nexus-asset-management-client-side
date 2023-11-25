@@ -112,7 +112,7 @@ const Navbar = () => {
             {
               !user && <div className="flex justify-center items-center gap-1">
   <img
-              className="w-8 h-8 rounded-full"
+              className="w-8 h-8 rounded-full object-cover"
               src="https://i.ibb.co/S7rGZfG/icons8-success-64.png"
               alt=""
             />
@@ -121,7 +121,7 @@ const Navbar = () => {
             }
             {
               user &&   <img
-              className="w-8 h-8 rounded-full"
+              className="w-8 h-8 rounded-full object-cover"
               src={user?.photoURL}
               alt=""
             />

@@ -11,6 +11,7 @@ import AssetListAdmin from '../Pages/AssetListAdmin/AssetListAdmin';
 import ErrorPage from '../Pages/ErrorPage/ErrorPage';
 import RequestAsset from '../Pages/RequestAsset/RequestAsset';
 import MakeCustomRequest from '../Pages/MakeCustomRequest/MakeCustomRequest';
+import Profile from '../Pages/Profile/Profile';
 
 
 export const router = createBrowserRouter([
@@ -54,6 +55,10 @@ export const router = createBrowserRouter([
         {
           path: "/requestcustomasset",
           element: <MakeCustomRequest></MakeCustomRequest>
+        },
+        {
+          path: "/profile",
+          element: <Profile></Profile>
         }
 
       ]
