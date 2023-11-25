@@ -1,23 +1,32 @@
-import React from 'react';
+import React, { useState } from 'react';
 import useAxiosPublic from '../../Hooks/useAxiosPublic';
 import { useQuery } from '@tanstack/react-query';
 
 const RequestAsset = () => {
     const axiosPublic = useAxiosPublic()
+    const [searchField, setSearchField] = useState('')
+    const [assetTypeField, setAssetTypeField] = useState('')
+    const getAssets = async () => {
+      const response = await axiosPublic.get(`/assets?search=${searchField}&typeField=${assetTypeField}`)
+      return response.data;
+    }
+    const handleSubmit = e => {
+      e.preventDefault();
+      const search = e.target.search.value; 
+      setSearchField(search)
+    }
     const {data: assetList} = useQuery({
-        queryKey: ["allAssets"],
-        queryFn: async () => {
-            const response = await axiosPublic.get("/assets")
-            return response.data;
-        }
+        queryKey: ["allAssets", searchField, assetTypeField],
+        queryFn: getAssets
     })
+    console.log(assetList)
   return (
     <div>
       <h1 className="text-5xl w-full bg-black flex justify-center items-center text-white py-20">
         Request for an Asset
       </h1>
       <div className=" rounded-lg lg:text-right my-5">
-        <form className="mx-auto flex justify-between items-center flex-col lg:flex-row gap-5">
+        <form onSubmit={handleSubmit} className="mx-auto flex justify-between items-center flex-col lg:flex-row gap-5">
           <div className="flex items-center gap-3">
             <label className="label">
               <span className="label-text">Filter by Status</span>
@@ -25,6 +34,16 @@ const RequestAsset = () => {
             <select name="category" className="input input-bordered">
               <option value="Pending">Pending</option>
               <option value="Approved">Approved</option>
+            </select>
+          </div>
+          <div className="flex items-center gap-3">
+            <label className="label">
+              <span className="label-text">Filter by Asset Type</span>
+            </label>
+            <select onChange={e => setAssetTypeField(e.target.value)} name="assetType" defaultValue="" className="input input-bordered">
+            <option value="">All</option>
+              <option value="returnable">Returnable</option>
+              <option value="nonreturnable">Non Returnable</option>
             </select>
           </div>
           <div>
