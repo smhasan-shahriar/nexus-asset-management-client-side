@@ -12,6 +12,7 @@ import ErrorPage from '../Pages/ErrorPage/ErrorPage';
 import RequestAsset from '../Pages/RequestAsset/RequestAsset';
 import MakeCustomRequest from '../Pages/MakeCustomRequest/MakeCustomRequest';
 import Profile from '../Pages/Profile/Profile';
+import AllRequests from '../Pages/AllRequests/AllRequests';
 
 
 export const router = createBrowserRouter([
@@ -59,6 +60,10 @@ export const router = createBrowserRouter([
         {
           path: "/profile",
           element: <Profile></Profile>
+        },
+        {
+          path: "/requests",
+          element: <AllRequests></AllRequests>
         }
 
       ]

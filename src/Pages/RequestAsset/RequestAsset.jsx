@@ -1,11 +1,14 @@
 import React, { useState } from 'react';
 import useAxiosPublic from '../../Hooks/useAxiosPublic';
 import { useQuery } from '@tanstack/react-query';
+import useAuth from '../../Hooks/useAuth';
+import Swal from 'sweetalert2';
 
 const RequestAsset = () => {
     const axiosPublic = useAxiosPublic()
     const [searchField, setSearchField] = useState('')
     const [assetTypeField, setAssetTypeField] = useState('')
+    const {user} = useAuth()
     const getAssets = async () => {
       const response = await axiosPublic.get(`/assets?search=${searchField}&typeField=${assetTypeField}`)
       return response.data;
@@ -19,7 +22,46 @@ const RequestAsset = () => {
         queryKey: ["allAssets", searchField, assetTypeField],
         queryFn: getAssets
     })
-    console.log(assetList)
+    const handleAddRequest = id => {
+        const currentDate = new Date();
+        const userEmail = user.email;
+        const userName = user.displayName;
+        const newRequest = {
+            assetId : id,
+            userEmail,
+            userName,
+            requestedDate: currentDate,
+            status: "pending"
+        }
+        Swal.fire({
+            title: "Do You want to request for the product?",
+            text: "Please insert additional note",
+            input: "text",
+            icon: "info",
+            showCancelButton: true,
+            confirmButtonColor: "#3085d6",
+            cancelButtonColor: "#d33",
+            confirmButtonText: "Yas",
+            preConfirm: note => {
+                newRequest.additionalNote = note;
+            }
+          }).then((result) => {
+            if (result.isConfirmed) {
+                axiosPublic.post('/create-request', newRequest)
+                .then(res => {
+                    if(res.data.insertedId){
+                        Swal.fire({
+                            title: "Successfully Requested",
+                            text: "Your request has been submitted.",
+                            icon: "success"
+                          });
+                    }
+                })
+             
+            }
+          });
+
+    }
   return (
     <div>
       <h1 className="text-5xl w-full bg-black flex justify-center items-center text-white py-20">
@@ -82,7 +124,7 @@ const RequestAsset = () => {
                 <td>{asset.assetName}</td>
                 <td>{asset.assetType}</td>
                 <td>{parseInt(asset.assetQuantity) ? 'Available' : 'Out of Stock'}</td>
-                <td className=""><button disabled={!parseInt(asset.assetQuantity)}  className="btn bg-blue-500 text-white">Request</button></td>
+                <td className=""><button onClick={() => handleAddRequest(asset._id)} disabled={!parseInt(asset.assetQuantity)}  className="btn bg-blue-500 text-white">Request</button></td>
                 
               </tr>)
         }
