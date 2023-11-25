@@ -3,31 +3,36 @@ import useAxiosPublic from '../../Hooks/useAxiosPublic';
 import { useQuery } from '@tanstack/react-query';
 import useAuth from '../../Hooks/useAuth';
 import Swal from 'sweetalert2';
+import useRole from '../../Hooks/useRole';
 
 const RequestAsset = () => {
     const axiosPublic = useAxiosPublic()
     const [searchField, setSearchField] = useState('')
     const [assetTypeField, setAssetTypeField] = useState('')
-    const {user} = useAuth()
+    const {user, loading} = useAuth()
+    const [currentUser, pending] = useRole();
     const getAssets = async () => {
-      const response = await axiosPublic.get(`/assets?search=${searchField}&typeField=${assetTypeField}`)
+      const response = await axiosPublic.get(`/assets?search=${searchField}&typeField=${assetTypeField}&companySearch=${currentUser?.userCompany}`)
       return response.data;
     }
     const handleSubmit = e => {
       e.preventDefault();
       const search = e.target.search.value; 
-      setSearchField(search)
+      setSearchField(search);
     }
     const {data: assetList} = useQuery({
         queryKey: ["allAssets", searchField, assetTypeField],
+        enabled: !pending,
         queryFn: getAssets
     })
-    const handleAddRequest = id => {
+    const handleAddRequest = asset => {
         const currentDate = new Date();
         const userEmail = user.email;
         const userName = user.displayName;
         const newRequest = {
-            assetId : id,
+            assetId : asset._id,
+            assetName: asset.assetName,
+            assetType: asset.assetType,
             userEmail,
             userName,
             requestedDate: currentDate,
@@ -124,7 +129,7 @@ const RequestAsset = () => {
                 <td>{asset.assetName}</td>
                 <td>{asset.assetType}</td>
                 <td>{parseInt(asset.assetQuantity) ? 'Available' : 'Out of Stock'}</td>
-                <td className=""><button onClick={() => handleAddRequest(asset._id)} disabled={!parseInt(asset.assetQuantity)}  className="btn bg-blue-500 text-white">Request</button></td>
+                <td className=""><button onClick={() => handleAddRequest(asset)} disabled={!parseInt(asset.assetQuantity)}  className="btn bg-blue-500 text-white">Request</button></td>
                 
               </tr>)
         }

@@ -1,12 +1,14 @@
 import React from 'react';
 import useAxiosPublic from '../../Hooks/useAxiosPublic';
 import { useQuery } from '@tanstack/react-query';
+import useRole from '../../Hooks/useRole';
 
 const AllRequests = () => {
     const axiosPublic = useAxiosPublic()
+    const [currentUser, pending] = useRole();
     const getRequests = async () => {
-        const response = await axiosPublic.get(`/allrequests`)
-        return response.data;
+        const response = await axiosPublic.get(`/allrequests?companySearch=${currentUser.companyName}`)
+        return response.data.singleResult;
       }
     //   const handleSubmit = e => {
     //     e.preventDefault();
@@ -14,7 +16,8 @@ const AllRequests = () => {
     //     setSearchField(search)
     //   }
       const {data: requestList} = useQuery({
-          queryKey: ["allRequests"],
+          queryKey: ["allRequests", currentUser.companyName],
+          enabled: !pending,
           queryFn: getRequests
       })
       console.log(requestList)
@@ -73,8 +76,8 @@ const AllRequests = () => {
               {requestList?.map((request, index) => (
                 <tr key={index}>
                   <th>{index + 1}</th>
-                  <td>{request.assetId}</td>
-                  <td>{request.assetId}</td>
+                  <td>{request.assetName}</td>
+                  <td>{request.assetType}</td>
                   <td>{request.userEmail}</td>
                   <td>{request.userName}</td>
                   <td>{new Date(request.requestedDate).toLocaleDateString()}</td>
