@@ -9,6 +9,7 @@ import Payment from '../Pages/Payment/Payment';
 import AddAsset from '../Pages/AddAsset/AddAsset';
 import AssetListAdmin from '../Pages/AssetListAdmin/AssetListAdmin';
 import ErrorPage from '../Pages/ErrorPage/ErrorPage';
+import RequestAsset from '../Pages/RequestAsset/RequestAsset';
 
 
 export const router = createBrowserRouter([
@@ -44,7 +45,12 @@ export const router = createBrowserRouter([
         {
           path: "/assets",
           element: <AssetListAdmin></AssetListAdmin>
+        },
+        {
+          path: "/requestasset",
+          element: <RequestAsset></RequestAsset>
         }
+
       ]
     },
   ]);
