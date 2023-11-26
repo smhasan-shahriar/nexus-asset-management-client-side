@@ -3,6 +3,7 @@ import useAxiosPublic from "../../Hooks/useAxiosPublic";
 import useRole from "../../Hooks/useRole";
 import { useQuery } from "@tanstack/react-query";
 import { Helmet } from "react-helmet";
+import { toast } from "react-toastify";
 
 const AllCustomRequests = () => {
   const axiosPublic = useAxiosPublic();
@@ -14,12 +15,33 @@ const AllCustomRequests = () => {
     return response.data.singleResult;
   };
 
-  const { data: customRequestList } = useQuery({
+  const { data: customRequestList, refetch: customRequestListRefetch } = useQuery({
     queryKey: ["allCustomRequests"],
     enabled: !pending,
     queryFn: getRequests,
   });
   console.log(customRequestList);
+  const handleReject = id => {
+    axiosPublic.put(`/manage-custom-request/${id}`, {newStatus: 'rejected'})
+    .then(res => {
+      if(res.data.modifiedCount > 0){
+        toast('item rejected');
+        customRequestListRefetch();
+      }
+    })
+  }
+  const handleApprove = id => {
+    axiosPublic.put(`/manage-custom-request/${id}`, {newStatus: 'approved'})
+    .then(res => {
+      if(res.data.modifiedCount > 0){
+        toast('item approved');
+        customRequestListRefetch();
+      }
+    })
+  }
+
+
+
   return (
     <div>
       <Helmet>
@@ -60,7 +82,7 @@ const AllCustomRequests = () => {
                 <td>{request.requestReason}</td>
                 <td>{request.requestInfo}</td>
                 <td className="">
-                  <button className="btn bg-green-600 text-white">
+                  <button   onClick={() => handleApprove(request._id)}   className="btn bg-green-600 text-white">
                     Approve
                   </button>
                   <button className="btn bg-red-600 text-white">Reject</button>

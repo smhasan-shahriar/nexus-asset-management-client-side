@@ -20,7 +20,8 @@ const MakeCustomRequest = () => {
         const requestInfo = form.info.value;
         const employeeEmail = user?.email;
         const dateAdded = currentDate;
-        const newRequest = {assetName, assetType, assetPrice, assetImage, requestReason, requestInfo, employeeEmail, dateAdded}
+        const status = "pending"
+        const newRequest = {assetName, assetType, assetPrice, assetImage, requestReason, requestInfo, employeeEmail, dateAdded, status}
         console.log(newRequest)
         axiosPublic.post("/create-custom-request", newRequest)
         .then(res => {
