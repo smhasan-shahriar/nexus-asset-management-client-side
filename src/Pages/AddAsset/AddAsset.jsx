@@ -3,6 +3,7 @@ import useAxiosPublic from '../../Hooks/useAxiosPublic';
 import { toast } from 'react-toastify';
 import useAuth from '../../Hooks/useAuth';
 import useRole from '../../Hooks/useRole';
+import { Helmet } from 'react-helmet';
 
 const AddAsset = () => {
     const axiosPublic = useAxiosPublic()
@@ -28,6 +29,9 @@ const AddAsset = () => {
     }
     return (
         <div>
+          <Helmet>
+                <title>Nexus | Add Asset</title>
+            </Helmet>
             <h1 className='text-5xl w-full bg-black flex justify-center items-center text-white py-20'>Add an Asset</h1>
             <form onSubmit={handleSubmit} className="card-body">
         

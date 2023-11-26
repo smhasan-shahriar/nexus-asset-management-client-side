@@ -3,6 +3,7 @@ import { FaGoogle } from "react-icons/fa";
 import useAuth from "../../Hooks/useAuth";
 import { useNavigate } from "react-router-dom";
 import useAxiosPublic from "../../Hooks/useAxiosPublic";
+import { Helmet } from "react-helmet";
 
 const Login = () => {
   const {logIn, socialLogIn} = useAuth();
@@ -37,7 +38,11 @@ const Login = () => {
         })
       };
     return (
-        <div className="flex">
+      <>
+      <Helmet>
+        <title>Nexus | Log In</title>
+      </Helmet>
+       <div className="flex">
       <div className="hero min-h-screen bg-gradient-to-r from-cyan-500 to-blue-500">
         <div className="hero-content flex-col gap-5">
           <div className="text-center lg:text-left">
@@ -109,6 +114,8 @@ const Login = () => {
         </div>
       </div>
     </div>
+      </>
+       
     );
 };
 

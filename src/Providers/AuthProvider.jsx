@@ -64,7 +64,7 @@ const AuthProvider = ({children}) => {
             
         });
         return () =>  unsubscribe();
-      }, [])
+      }, [axiosPublic])
       const myRef = {
         user,
         loading,

@@ -4,6 +4,7 @@ import { useQuery } from '@tanstack/react-query';
 import useAuth from '../../Hooks/useAuth';
 import Swal from 'sweetalert2';
 import useRole from '../../Hooks/useRole';
+import { Helmet } from 'react-helmet';
 
 const RequestAsset = () => {
     const axiosPublic = useAxiosPublic()
@@ -36,6 +37,7 @@ const RequestAsset = () => {
             userEmail,
             userName,
             requestedDate: currentDate,
+            requesterCompany: currentUser?.userCompany,
             status: "pending"
         }
         Swal.fire({
@@ -69,6 +71,9 @@ const RequestAsset = () => {
     }
   return (
     <div>
+       <Helmet>
+        <title>Nexus | Request Asset</title>
+      </Helmet>
       <h1 className="text-5xl w-full bg-black flex justify-center items-center text-white py-20">
         Request for an Asset
       </h1>

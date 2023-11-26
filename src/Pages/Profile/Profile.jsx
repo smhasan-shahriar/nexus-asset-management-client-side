@@ -3,6 +3,7 @@ import useAuth from "../../Hooks/useAuth";
 import useRole from "../../Hooks/useRole";
 import useAxiosPublic from "../../Hooks/useAxiosPublic";
 import { toast } from "react-toastify";
+import { Helmet } from "react-helmet";
 
 const Profile = () => {
   const { user, updateUserProfile } = useAuth();
@@ -29,6 +30,9 @@ const Profile = () => {
   }
   return (
     <div>
+       <Helmet>
+        <title>Nexus | Your Profile</title>
+      </Helmet>
       <h1 className="text-5xl w-full bg-black flex justify-center items-center text-white py-20">
         Profile
       </h1>

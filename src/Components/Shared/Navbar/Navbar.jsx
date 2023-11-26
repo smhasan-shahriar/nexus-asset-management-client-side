@@ -13,6 +13,7 @@ const Navbar = () => {
     logOut()
     .then (() => {
       toast('logged out')
+      navigate('/')
     })
   }
   if(loading){
@@ -57,7 +58,7 @@ const Navbar = () => {
       {user && newUser?.role ==="admin" &&  (
         <>
           <li>
-            <NavLink to="/employees">My Employee List</NavLink>
+            <NavLink to="/myemployees">My Employee List</NavLink>
           </li>
           <li>
             <NavLink to="/addemployee">Add an Employee</NavLink>
@@ -73,6 +74,9 @@ const Navbar = () => {
           </li>
           <li>
             <NavLink to="/customrequests">Custom Requests List</NavLink>
+          </li>
+          <li>
+            <NavLink to="/profile">Profile</NavLink>
           </li>
         </>
       )}
@@ -133,11 +137,11 @@ const Navbar = () => {
           <ul className="menu menu-horizontal px-1">{navLinks}</ul>
         </div>
         {
-          !user ? <div onClick={() => navigate("/login")} className="navbar-end">
-          <a className="btn">Login</a>
+          !user ? <div className="navbar-end">
+          <a onClick={() => navigate("/login")}  className="btn">Login</a>
         </div> :
-        <div onClick={handleLogOut} className="navbar-end">
-        <a className="btn">Log Out</a>
+        <div className="navbar-end">
+        <a onClick={handleLogOut}  className="btn">Log Out</a>
       </div>
         }
         

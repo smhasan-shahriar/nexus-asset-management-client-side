@@ -6,6 +6,7 @@ import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import useAxiosPublic from "../../Hooks/useAxiosPublic";
 import { toast } from "react-toastify";
+import { Helmet } from "react-helmet";
 
 const SignUpEmployee = () => {
   const navigate = useNavigate();
@@ -25,6 +26,7 @@ const SignUpEmployee = () => {
         email: result.user.email,
         image: result.user.photoURL,
         role: "employee",
+        userCompany: "none"
       };
       axiosPublic.post("/users", newUser).then((res) => {
         console.log(res.data);
@@ -52,6 +54,7 @@ const SignUpEmployee = () => {
         image: response.data.data.display_url,
         role: "employee",
         dateOfBirth: data.dateOfBirth,
+        userCompany: "none"
       };
       console.log(newUser);
       createUser(data.email, data.password).then((result) => {
@@ -65,7 +68,11 @@ const SignUpEmployee = () => {
     }
   };
   return (
-    <div className="flex">
+    <>
+    <Helmet>
+      <title>Nexus | Sign Up</title>
+    </Helmet>
+     <div className="flex">
       <div className="hero min-h-screen bg-gradient-to-r from-cyan-500 to-blue-500">
         <div className="hero-content flex-col gap-5">
           <div className="text-center lg:text-left">
@@ -175,6 +182,8 @@ const SignUpEmployee = () => {
         </div>
       </div>
     </div>
+    </>
+   
   );
 };
 

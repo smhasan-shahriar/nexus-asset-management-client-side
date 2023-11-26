@@ -6,6 +6,7 @@ import useAxiosPublic from '../../Hooks/useAxiosPublic';
 import { toast } from 'react-toastify';
 import axios from 'axios';
 import { Navigate, useNavigate } from 'react-router-dom';
+import { Helmet } from 'react-helmet';
 const SignUpAdmin = () => {
     const { createUser, updateUserProfile, socialLogIn, updatePayment } = useAuth();
     const currentDate = new Date();
@@ -56,7 +57,11 @@ const SignUpAdmin = () => {
         return <Navigate to="/payment"></Navigate>
       }
     return (
-        <div className="flex">
+      <>
+      <Helmet>
+        <title>Nexus | Sign Up</title>
+      </Helmet>
+      <div className="flex">
         <div className="hero min-h-screen bg-gradient-to-r from-cyan-500 to-blue-500">
           <div className="hero-content flex-col gap-5">
             <div className="text-center lg:text-left">
@@ -176,6 +181,8 @@ const SignUpAdmin = () => {
           </div>
         </div>
       </div>
+      </>
+        
     );
 };
 

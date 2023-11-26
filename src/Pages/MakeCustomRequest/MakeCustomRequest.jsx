@@ -2,6 +2,7 @@ import React from "react";
 import useAxiosPublic from "../../Hooks/useAxiosPublic";
 import useAuth from "../../Hooks/useAuth";
 import { toast } from "react-toastify";
+import { Helmet } from "react-helmet";
 
 const MakeCustomRequest = () => {
     const axiosPublic = useAxiosPublic()
@@ -30,6 +31,9 @@ const MakeCustomRequest = () => {
     }
   return (
     <div>
+      <Helmet>
+        <title>Nexus | Custom Request</title>
+      </Helmet>
       <h1 className="text-5xl w-full bg-black flex justify-center items-center text-white py-20">
         Make a custom Request
       </h1>

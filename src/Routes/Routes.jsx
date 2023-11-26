@@ -14,6 +14,9 @@ import MakeCustomRequest from '../Pages/MakeCustomRequest/MakeCustomRequest';
 import Profile from '../Pages/Profile/Profile';
 import AllRequests from '../Pages/AllRequests/AllRequests';
 import AllCustomRequests from '../Pages/AllCustomRequests/AllCustomRequests';
+import AddEmployee from '../Pages/AddEmployee/AddEmployee';
+import MyEmployeeList from '../Pages/MyEmployeeList/MyEmployeeList';
+import OurPackages from '../Pages/Packages/OurPackages';
 
 
 export const router = createBrowserRouter([
@@ -69,6 +72,18 @@ export const router = createBrowserRouter([
         {
           path: "/customrequests",
           element: <AllCustomRequests></AllCustomRequests>
+        },
+        {
+          path: "/addemployee",
+          element: <AddEmployee></AddEmployee>
+        },
+        {
+          path: "/myemployees",
+          element: <MyEmployeeList></MyEmployeeList>
+        },
+        {
+          path: "/packages",
+          element: <OurPackages></OurPackages>
         }
 
       ]

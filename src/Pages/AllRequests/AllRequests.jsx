@@ -2,6 +2,8 @@ import React from 'react';
 import useAxiosPublic from '../../Hooks/useAxiosPublic';
 import { useQuery } from '@tanstack/react-query';
 import useRole from '../../Hooks/useRole';
+import { Helmet } from 'react-helmet';
+import { toast } from 'react-toastify';
 
 const AllRequests = () => {
     const axiosPublic = useAxiosPublic()
@@ -10,20 +12,39 @@ const AllRequests = () => {
         const response = await axiosPublic.get(`/allrequests?companySearch=${currentUser.companyName}`)
         return response.data.singleResult;
       }
-    //   const handleSubmit = e => {
-    //     e.preventDefault();
-    //     const search = e.target.search.value; 
-    //     setSearchField(search)
-    //   }
-      const {data: requestList} = useQuery({
-          queryKey: ["allRequests", currentUser.companyName],
+    
+      const {data: requestList, refetch: requestListRefetch} = useQuery({
+          queryKey: ["allRequests", currentUser?.companyName],
           enabled: !pending,
           queryFn: getRequests
       })
       console.log(requestList)
+      
+      const handleReject = id => {
+        axiosPublic.put(`/manage-request/${id}`, {newStatus: 'rejected'})
+        .then(res => {
+          if(res.data.modifiedCount > 0){
+            toast('item rejected');
+            requestListRefetch();
+          }
+        })
+      }
+      const handleApprove = request => {
+        axiosPublic.put(`/manage-request/${request._id}`, {newStatus: 'approved', assetId: request.assetId})
+        .then(res => {
+          if(res.data.modifiedCount > 0){
+            toast('item approved');
+            requestListRefetch();
+          }
+        })
+      }
+
 
     return (
         <div>
+           <Helmet>
+        <title>Nexus | Customer Requests</title>
+      </Helmet>
             <h1 className="text-5xl w-full bg-black flex justify-center items-center text-white py-20">
         All Requests
       </h1>
@@ -84,10 +105,10 @@ const AllRequests = () => {
                   <td>{request.additionalNote}</td>
                   <td>{request.status}</td>
                   <td className="">
-                    <button className="btn bg-green-600 text-white">
+                    <button  onClick={() => handleApprove(request)}  disabled={request.status === "rejected" || request.status === "approved"} className="btn bg-green-600 text-white">
                       Approve
                     </button>
-                    <button className="btn bg-red-600 text-white">
+                    <button onClick={() => handleReject(request._id)}  disabled={request.status === "rejected" || request.status === "approved"} className="btn bg-red-600 text-white">
                       Reject
                     </button>
                   </td>

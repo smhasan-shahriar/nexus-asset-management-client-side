@@ -1,14 +1,16 @@
 import { useQuery } from "@tanstack/react-query";
 import React, { useState } from "react";
 import useAxiosPublic from "../../Hooks/useAxiosPublic";
+import { Helmet } from "react-helmet";
 
 const AssetListAdmin = () => {
   const axiosPublic = useAxiosPublic();
   const [quantityIndex, setQuantityIndex] = useState("");
   const [searchField, setSearchField] = useState("");
+  const [quantityStatus, setQuantityStatus] = useState("");
   const getAssets = async () => {
     const response = await axiosPublic.get(
-      `/assets?sortField=assetQuantity&sortOrder=${quantityIndex}&search=${searchField}`
+      `/assets?sortField=assetQuantity&sortOrder=${quantityIndex}&search=${searchField}&quantityStatus=${quantityStatus}`
     );
     return response.data;
   };
@@ -18,12 +20,14 @@ const AssetListAdmin = () => {
     setSearchField(search);
   };
   const { data: assetList } = useQuery({
-    queryKey: ["allAssets", quantityIndex, searchField],
+    queryKey: ["allAssets", quantityIndex, searchField, quantityStatus],
     queryFn: getAssets,
   });
-  console.log(assetList);
   return (
     <div>
+      <Helmet>
+                <title>Nexus | Asset List</title>
+            </Helmet>
       <h1 className="text-5xl w-full bg-black flex justify-center items-center text-white py-20">
         Asset List
       </h1>
@@ -36,9 +40,10 @@ const AssetListAdmin = () => {
             <label className="label">
               <span className="label-text">Filter by Status</span>
             </label>
-            <select name="category" className="input input-bordered">
-              <option value="Pending">Pending</option>
-              <option value="Approved">Approved</option>
+            <select onChange={(e) => setQuantityStatus(e.target.value)} name="category" defaultValue="" className="input input-bordered">
+            <option value="">No Selection</option>
+              <option value="available">Available</option>
+              <option value="outOfStock">Out of Stock</option>
             </select>
           </div>
           <div className="flex items-center gap-3">

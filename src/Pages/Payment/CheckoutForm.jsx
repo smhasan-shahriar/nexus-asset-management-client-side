@@ -6,10 +6,9 @@ import useAuth from "../../Hooks/useAuth";
 import { toast } from "react-toastify";
 
 
-const CheckoutForm = ({paymentDue}) => {
+const CheckoutForm = ({paymentDue, memberLimit}) => {
     const [error, setError] = useState('');
     const {user, payment} = useAuth()
-    console.log(user)
     const [clientSecret, setClientSecret] = useState('');
     const [transactionId, setTransactionId] = useState('');
     const stripe = useStripe();
@@ -66,7 +65,7 @@ if (confirmError) {
     else{
       console.log('payment intent', paymentIntent)
       if(paymentIntent.status === 'succeeded'){
-        toast(`Payment Successful. your transact id ${paymentIntent.id}`)
+        
         setTransactionId(paymentIntent.id);
         const payment = {
           email: user?.email,
@@ -74,9 +73,18 @@ if (confirmError) {
           transactionId: paymentIntent.id,
           date: new Date()
         }
-
+        const updatedUser = {
+          
+          
+          employeeLimit : memberLimit}
+        axiosPublic.put(`/adminusers/${user?.email}`, updatedUser)
+        .then(res => {
+          if(res.data.modifiedCount > 0){
+            toast(`Payment Successful. your transact id ${paymentIntent.id}`)
+            navigate('/')
+          }
+        })
         
-          navigate('/')
         }
       }
     }
