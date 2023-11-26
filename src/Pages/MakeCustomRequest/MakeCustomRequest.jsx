@@ -3,10 +3,12 @@ import useAxiosPublic from "../../Hooks/useAxiosPublic";
 import useAuth from "../../Hooks/useAuth";
 import { toast } from "react-toastify";
 import { Helmet } from "react-helmet";
+import useRole from "../../Hooks/useRole";
 
 const MakeCustomRequest = () => {
     const axiosPublic = useAxiosPublic()
     const {user} = useAuth()
+    const [currentUser, pending] = useRole()
     const currentDate = new Date();
     console.log(user)
     const handleSubmit = e => {
@@ -19,9 +21,10 @@ const MakeCustomRequest = () => {
         const requestReason = form.reason.value;
         const requestInfo = form.info.value;
         const employeeEmail = user?.email;
+        const requesterCompany = currentUser?.userCompany
         const dateAdded = currentDate;
         const status = "pending"
-        const newRequest = {assetName, assetType, assetPrice, assetImage, requestReason, requestInfo, employeeEmail, dateAdded, status}
+        const newRequest = {assetName, assetType, assetPrice, assetImage, requestReason, requestInfo, requesterCompany, employeeEmail, dateAdded, status}
         console.log(newRequest)
         axiosPublic.post("/create-custom-request", newRequest)
         .then(res => {
@@ -120,6 +123,7 @@ const MakeCustomRequest = () => {
           className="btn normal-case text-lg font-semibold bg-blue-600 text-white my-5"
           type="submit"
           value="Request"
+          disabled={pending}
         />
       </form>
     </div>

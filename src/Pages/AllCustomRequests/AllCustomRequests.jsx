@@ -82,10 +82,10 @@ const AllCustomRequests = () => {
                 <td>{request.requestReason}</td>
                 <td>{request.requestInfo}</td>
                 <td className="">
-                  <button   onClick={() => handleApprove(request._id)}   className="btn bg-green-600 text-white">
+                  <button   disabled={request.status === "rejected" || request.status === "approved"}   onClick={() => handleApprove(request._id)}   className="btn bg-green-600 text-white">
                     Approve
                   </button>
-                  <button className="btn bg-red-600 text-white">Reject</button>
+                  <button  disabled={request.status === "rejected" || request.status === "approved"}  className="btn bg-red-600 text-white" onClick={() => handleReject(request._id)} >Reject</button>
                 </td>
               </tr>
             ))}

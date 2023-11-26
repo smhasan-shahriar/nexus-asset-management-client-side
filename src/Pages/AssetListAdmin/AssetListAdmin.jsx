@@ -26,8 +26,8 @@ const AssetListAdmin = () => {
   return (
     <div>
       <Helmet>
-                <title>Nexus | Asset List</title>
-            </Helmet>
+        <title>Nexus | Asset List</title>
+      </Helmet>
       <h1 className="text-5xl w-full bg-black flex justify-center items-center text-white py-20">
         Asset List
       </h1>
@@ -40,8 +40,13 @@ const AssetListAdmin = () => {
             <label className="label">
               <span className="label-text">Filter by Status</span>
             </label>
-            <select onChange={(e) => setQuantityStatus(e.target.value)} name="category" defaultValue="" className="input input-bordered">
-            <option value="">No Selection</option>
+            <select
+              onChange={(e) => setQuantityStatus(e.target.value)}
+              name="category"
+              defaultValue=""
+              className="input input-bordered"
+            >
+              <option value="">No Selection</option>
               <option value="available">Available</option>
               <option value="outOfStock">Out of Stock</option>
             </select>

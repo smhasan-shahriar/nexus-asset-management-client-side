@@ -17,6 +17,7 @@ import AllCustomRequests from '../Pages/AllCustomRequests/AllCustomRequests';
 import AddEmployee from '../Pages/AddEmployee/AddEmployee';
 import MyEmployeeList from '../Pages/MyEmployeeList/MyEmployeeList';
 import OurPackages from '../Pages/Packages/OurPackages';
+import MyAssets from '../Pages/MyAssets/MyAssets';
 
 
 export const router = createBrowserRouter([
@@ -84,6 +85,10 @@ export const router = createBrowserRouter([
         {
           path: "/packages",
           element: <OurPackages></OurPackages>
+        },
+        {
+          path: "/myassets",
+          element: <MyAssets></MyAssets>
         }
 
       ]

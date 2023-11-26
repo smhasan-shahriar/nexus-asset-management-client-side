@@ -4,10 +4,12 @@ import { useQuery } from '@tanstack/react-query';
 import useRole from '../../Hooks/useRole';
 import { Helmet } from 'react-helmet';
 import { toast } from 'react-toastify';
+import PrintComponent from '../../Components/PrintCompnent/PrintComponent';
 
 const AllRequests = () => {
     const axiosPublic = useAxiosPublic()
     const [currentUser, pending] = useRole();
+    const currentDate = new Date()
     const getRequests = async () => {
         const response = await axiosPublic.get(`/allrequests?companySearch=${currentUser.companyName}`)
         return response.data.singleResult;
@@ -21,7 +23,7 @@ const AllRequests = () => {
       console.log(requestList)
       
       const handleReject = id => {
-        axiosPublic.put(`/manage-request/${id}`, {newStatus: 'rejected'})
+        axiosPublic.put(`/manage-request/${id}`, {newStatus: 'rejected', actionDate: currentDate})
         .then(res => {
           if(res.data.modifiedCount > 0){
             toast('item rejected');
@@ -30,7 +32,7 @@ const AllRequests = () => {
         })
       }
       const handleApprove = request => {
-        axiosPublic.put(`/manage-request/${request._id}`, {newStatus: 'approved', assetId: request.assetId})
+        axiosPublic.put(`/manage-request/${request._id}`, {newStatus: 'approved', assetId: request.assetId, actionDate: currentDate})
         .then(res => {
           if(res.data.modifiedCount > 0){
             toast('item approved');
