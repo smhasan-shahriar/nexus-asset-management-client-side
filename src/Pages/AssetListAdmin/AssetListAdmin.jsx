@@ -2,15 +2,17 @@ import { useQuery } from "@tanstack/react-query";
 import React, { useState } from "react";
 import useAxiosPublic from "../../Hooks/useAxiosPublic";
 import { Helmet } from "react-helmet";
+import useRole from "../../Hooks/useRole";
 
 const AssetListAdmin = () => {
   const axiosPublic = useAxiosPublic();
   const [quantityIndex, setQuantityIndex] = useState("");
   const [searchField, setSearchField] = useState("");
   const [quantityStatus, setQuantityStatus] = useState("");
+  const [currentUser, pending] = useRole();
   const getAssets = async () => {
     const response = await axiosPublic.get(
-      `/assets?sortField=assetQuantity&sortOrder=${quantityIndex}&search=${searchField}&quantityStatus=${quantityStatus}`
+      `/assets?sortField=assetQuantity&sortOrder=${quantityIndex}&search=${searchField}&quantityStatus=${quantityStatus}&companySearch=${currentUser?.userCompany}`
     );
     return response.data;
   };
@@ -21,6 +23,7 @@ const AssetListAdmin = () => {
   };
   const { data: assetList } = useQuery({
     queryKey: ["allAssets", quantityIndex, searchField, quantityStatus],
+    enabled: !pending,
     queryFn: getAssets,
   });
   return (

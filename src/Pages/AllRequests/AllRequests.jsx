@@ -11,12 +11,12 @@ const AllRequests = () => {
     const [currentUser, pending] = useRole();
     const currentDate = new Date()
     const getRequests = async () => {
-        const response = await axiosPublic.get(`/allrequests?companySearch=${currentUser.companyName}`)
+        const response = await axiosPublic.get(`/allrequests?companySearch=${currentUser.userCompany}`)
         return response.data.singleResult;
       }
     
       const {data: requestList, refetch: requestListRefetch} = useQuery({
-          queryKey: ["allRequests", currentUser?.companyName],
+          queryKey: ["allRequests", currentUser?.userCompany],
           enabled: !pending,
           queryFn: getRequests
       })

@@ -33,7 +33,7 @@ const SignUpAdmin = () => {
         if (response.data.success) {
           const newAdminUser = {
             name: data.name,
-            companyName: data.companyName,
+            userCompany: data.userCompany,
             email: data.email,
             image: response.data.data.display_url,
             role: "admin",
@@ -86,7 +86,7 @@ const SignUpAdmin = () => {
                     <span className="label-text">Company Name</span>
                   </label>
                   <input
-                    {...register("companyName")}
+                    {...register("userCompany")}
                     type="text"
                     placeholder="Company Name"
                     className="input input-bordered"

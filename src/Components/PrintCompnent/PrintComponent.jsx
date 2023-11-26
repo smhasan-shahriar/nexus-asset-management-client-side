@@ -4,8 +4,7 @@ import {
   Text,
   View,
   Document,
-  StyleSheet,
-  PDFViewer,
+  StyleSheet
 } from "@react-pdf/renderer";
 const PrintComponent = ({ data }) => {
   const styles = StyleSheet.create({

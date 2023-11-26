@@ -18,6 +18,7 @@ import AddEmployee from '../Pages/AddEmployee/AddEmployee';
 import MyEmployeeList from '../Pages/MyEmployeeList/MyEmployeeList';
 import OurPackages from '../Pages/Packages/OurPackages';
 import MyAssets from '../Pages/MyAssets/MyAssets';
+import MyTeam from '../Pages/MyTeam/MyTeam';
 
 
 export const router = createBrowserRouter([
@@ -89,6 +90,10 @@ export const router = createBrowserRouter([
         {
           path: "/myassets",
           element: <MyAssets></MyAssets>
+        },
+        {
+          path: "/myteam",
+          element: <MyTeam></MyTeam>
         }
 
       ]

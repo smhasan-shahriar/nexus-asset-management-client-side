@@ -16,9 +16,9 @@ const AddAsset = () => {
         const assetName = form.name.value;
         const assetType = form.type.value;
         const assetQuantity = form.quantity.value;
-        const companyName = user?.companyName;
+        const userCompany = user?.userCompany;
         const dateAdded = currentDate;
-        const newAsset = {assetName, assetType, assetQuantity, companyName, dateAdded}
+        const newAsset = {assetName, assetType, assetQuantity, userCompany, dateAdded}
         console.log(newAsset)
         axiosPublic.post("/create-asset", newAsset)
         .then(res => {

@@ -5,13 +5,14 @@ import { useQuery } from "@tanstack/react-query";
 import { Helmet } from "react-helmet";
 import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
+import { RiAdminFill, RiAdminLine, RiUser3Line } from "react-icons/ri";
 
 const MyEmployeeList = () => {
   const [user, pending] = useRole();
   const axiosPublic = useAxiosPublic();
   const getExistingUsers = async () => {
     const response = await axiosPublic.get(
-      `/find-users?userCompany=${user?.companyName}`
+      `/find-users?userCompany=${user?.userCompany}`
     );
     return response.data;
   };
@@ -78,14 +79,20 @@ const MyEmployeeList = () => {
                   </div>
                 </td>
                 <td>{user.name}</td>
-                <td className="btn">{user.role}</td>
+                <td className="text-xl font-bold">{user.role === "admin" && <RiAdminLine />}
+                {user.role === "employee" && <RiUser3Line />}
+                
+                </td>
                 <th>
-                  <button
+                  {
+                    user?.role === "employee" && <button
                     onClick={() => handleRemoveEmployee(user?.email)}
                     className="btn bg-red-500 text-white"
                   >
                     Remove
                   </button>
+                  }
+                  
                 </th>
               </tr>
             ))}

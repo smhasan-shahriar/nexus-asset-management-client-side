@@ -21,7 +21,7 @@ const AddEmployee = () => {
   });
   const getExistingUsers = async () => {
     const response = await axiosPublic.get(
-      `/find-users?userCompany=${user?.companyName}`
+      `/find-users?userCompany=${user?.userCompany}`
     );
     return response.data;
   };
@@ -32,7 +32,7 @@ const AddEmployee = () => {
   });
 
   const handleAddEmployee = (email) => {
-    const updatedUser = {userCompany: user?.companyName }
+    const updatedUser = {userCompany: user?.userCompany }
     axiosPublic.put(`/manage-team-member/${email}`, updatedUser)
     .then(res => {
       if(res.data.modifiedCount > 0){

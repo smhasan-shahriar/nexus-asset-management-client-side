@@ -10,10 +10,11 @@ const RequestAsset = () => {
     const axiosPublic = useAxiosPublic()
     const [searchField, setSearchField] = useState('')
     const [assetTypeField, setAssetTypeField] = useState('')
+    const [quantityStatus, setQuantityStatus] = useState("");
     const {user, loading} = useAuth()
     const [currentUser, pending] = useRole();
     const getAssets = async () => {
-      const response = await axiosPublic.get(`/assets?search=${searchField}&typeField=${assetTypeField}&companySearch=${currentUser?.userCompany}`)
+      const response = await axiosPublic.get(`/assets?search=${searchField}&typeField=${assetTypeField}&companySearch=${currentUser?.userCompany}&quantityStatus=${quantityStatus}`)
       return response.data;
     }
     const handleSubmit = e => {
@@ -22,7 +23,7 @@ const RequestAsset = () => {
       setSearchField(search);
     }
     const {data: assetList} = useQuery({
-        queryKey: ["allAssets", searchField, assetTypeField],
+        queryKey: ["allAssets", searchField, assetTypeField, quantityStatus],
         enabled: !pending,
         queryFn: getAssets
     })
@@ -83,9 +84,15 @@ const RequestAsset = () => {
             <label className="label">
               <span className="label-text">Filter by Status</span>
             </label>
-            <select name="category" className="input input-bordered">
-              <option value="Pending">Pending</option>
-              <option value="Approved">Approved</option>
+            <select
+              onChange={(e) => setQuantityStatus(e.target.value)}
+              name="category"
+              defaultValue=""
+              className="input input-bordered"
+            >
+              <option value="">No Selection</option>
+              <option value="available">Available</option>
+              <option value="outOfStock">Out of Stock</option>
             </select>
           </div>
           <div className="flex items-center gap-3">
@@ -99,7 +106,7 @@ const RequestAsset = () => {
             </select>
           </div>
           <div>
-            <input
+            <input onChange={(e) => setSearchField(e.target.value)}
               name="search"
               className="text-sm p-[13px] md:w-[360px] w-[220px] border border-r-0"
               type="text"

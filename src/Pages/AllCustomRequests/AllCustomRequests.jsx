@@ -10,7 +10,7 @@ const AllCustomRequests = () => {
   const [currentUser, pending] = useRole();
   const getRequests = async () => {
     const response = await axiosPublic.get(
-      `/allcustomrequests?companySearch=${currentUser.companyName}`
+      `/allcustomrequests?companySearch=${currentUser.userCompany}`
     );
     return response.data.singleResult;
   };
