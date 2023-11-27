@@ -3,6 +3,7 @@ import React, { useState } from "react";
 import useAxiosPublic from "../../Hooks/useAxiosPublic";
 import { Helmet } from "react-helmet";
 import useRole from "../../Hooks/useRole";
+import { Link, useNavigate } from "react-router-dom";
 
 const AssetListAdmin = () => {
   const axiosPublic = useAxiosPublic();
@@ -10,6 +11,7 @@ const AssetListAdmin = () => {
   const [searchField, setSearchField] = useState("");
   const [quantityStatus, setQuantityStatus] = useState("");
   const [currentUser, pending] = useRole();
+  const navigate = useNavigate()
   const getAssets = async () => {
     const response = await axiosPublic.get(
       `/assets?sortField=assetQuantity&sortOrder=${quantityIndex}&search=${searchField}&quantityStatus=${quantityStatus}&companySearch=${currentUser?.userCompany}`
@@ -106,9 +108,9 @@ const AssetListAdmin = () => {
                   <td>{asset.assetQuantity}</td>
                   <td>{new Date(asset.dateAdded).toLocaleDateString()}</td>
                   <td className="">
-                    <button className="btn bg-orange-500 text-white">
+                    <Link to={`/updateasset/${asset._id}`} className="btn bg-orange-500 text-white">
                       Update
-                    </button>
+                    </Link>
                   </td>
                   <td className="">
                     <button className="btn bg-red-600 text-white">

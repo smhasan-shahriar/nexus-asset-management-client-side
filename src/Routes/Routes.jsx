@@ -21,6 +21,7 @@ import MyAssets from '../Pages/MyAssets/MyAssets';
 import MyTeam from '../Pages/MyTeam/MyTeam';
 import PrivateRoutes from './PrivateRoutes';
 import AdminRoute from './AdminRoute';
+import UpdateAsset from '../Pages/UpdateAsset/UpdateAsset';
 
 
 export const router = createBrowserRouter([
@@ -73,6 +74,10 @@ export const router = createBrowserRouter([
         {
           path: "/myemployees",
           element: <AdminRoute><MyEmployeeList></MyEmployeeList></AdminRoute> 
+        },
+        {
+          path: "/updateasset/:id",
+          element: <UpdateAsset></UpdateAsset>
         },
         //employee routes
         {
