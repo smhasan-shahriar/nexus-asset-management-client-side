@@ -5,6 +5,7 @@ import useRole from '../../Hooks/useRole';
 import useAxiosPublic from '../../Hooks/useAxiosPublic';
 import { useQuery } from '@tanstack/react-query';
 import SectionMonthlyRequests from './SectionMonthlyRequests';
+import FrequentlyRequested from './FrequentlyRequested';
 
 const HomeUser = () => {
     const [currentUser, pending] = useRole();
@@ -26,6 +27,7 @@ const HomeUser = () => {
             <SectionCustomRequests></SectionCustomRequests>
             <SectionPendingRequests requests={myAssetList}></SectionPendingRequests>
             <SectionMonthlyRequests requests={myAssetList}></SectionMonthlyRequests>
+            <FrequentlyRequested></FrequentlyRequested>
         </div>
     );
 };

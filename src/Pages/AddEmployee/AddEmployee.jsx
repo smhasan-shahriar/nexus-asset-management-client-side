@@ -42,6 +42,8 @@ const AddEmployee = () => {
       }
     })
   }
+  const currentMembers = existingUsers?.length;
+  const limit = user?.employeeLimit;
 
   return (
     <div>
@@ -52,8 +54,8 @@ const AddEmployee = () => {
         Add Employee
       </h1>
       <h1 className="text-2xl w-full bg-black flex justify-evenly items-center text-white py-10 my-5">
-        <p>Existing Members: {existingUsers?.length}</p>
-        <p>Your Limit: {user?.employeeLimit}</p>
+        <p>Existing Members: {currentMembers}</p>
+        <p>Your Limit: {limit}</p>
         <button onClick={() => navigate("/packages")} className="btn">Increase Limit</button>
       </h1>
       <div className="overflow-x-auto">
@@ -95,7 +97,7 @@ const AddEmployee = () => {
                 <td>{user.name}</td>
                 <td className="btn">{user.role}</td>
                 <th>
-                  <button onClick={() => handleAddEmployee(user.email)} className="btn bg-green-500 text-white">Add</button>
+                  <button disabled= {currentMembers > limit } onClick={() => handleAddEmployee(user.email)} className="btn bg-green-500 text-white">Add</button>
                 </th>
               </tr>
             ))}

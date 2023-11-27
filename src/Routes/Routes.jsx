@@ -19,6 +19,8 @@ import MyEmployeeList from '../Pages/MyEmployeeList/MyEmployeeList';
 import OurPackages from '../Pages/Packages/OurPackages';
 import MyAssets from '../Pages/MyAssets/MyAssets';
 import MyTeam from '../Pages/MyTeam/MyTeam';
+import PrivateRoutes from './PrivateRoutes';
+import AdminRoute from './AdminRoute';
 
 
 export const router = createBrowserRouter([
@@ -47,54 +49,58 @@ export const router = createBrowserRouter([
           path: "/payment",
           element: <Payment></Payment>
         },
+        //admin routes
         {
           path: "/addasset",
-          element: <AddAsset></AddAsset>
+          element: <AdminRoute><AddAsset></AddAsset></AdminRoute> 
         },
         {
           path: "/assets",
-          element: <AssetListAdmin></AssetListAdmin>
-        },
-        {
-          path: "/requestasset",
-          element: <RequestAsset></RequestAsset>
-        },
-        {
-          path: "/requestcustomasset",
-          element: <MakeCustomRequest></MakeCustomRequest>
-        },
-        {
-          path: "/profile",
-          element: <Profile></Profile>
-        },
+          element: <AdminRoute><AssetListAdmin></AssetListAdmin></AdminRoute> 
+        }, 
         {
           path: "/requests",
-          element: <AllRequests></AllRequests>
+          element: <AdminRoute><AllRequests></AllRequests></AdminRoute>  
         },
         {
           path: "/customrequests",
-          element: <AllCustomRequests></AllCustomRequests>
+          element: <AdminRoute><AllCustomRequests></AllCustomRequests></AdminRoute>  
         },
         {
           path: "/addemployee",
-          element: <AddEmployee></AddEmployee>
+          element: <AdminRoute><AddEmployee></AddEmployee></AdminRoute>
         },
         {
           path: "/myemployees",
-          element: <MyEmployeeList></MyEmployeeList>
-        },
-        {
-          path: "/packages",
-          element: <OurPackages></OurPackages>
-        },
-        {
-          path: "/myassets",
-          element: <MyAssets></MyAssets>
+          element: <AdminRoute><MyEmployeeList></MyEmployeeList></AdminRoute> 
         },
         {
           path: "/myteam",
-          element: <MyTeam></MyTeam>
+          element: <AdminRoute><MyTeam></MyTeam></AdminRoute> 
+        },
+        //employee routes
+        {
+          path: "/requestasset",
+          element: <PrivateRoutes><RequestAsset></RequestAsset></PrivateRoutes> 
+        },
+        {
+          path: "/requestcustomasset",
+          element: <PrivateRoutes> <MakeCustomRequest></MakeCustomRequest></PrivateRoutes>
+        },
+        {
+          path: "/profile",
+          element: <PrivateRoutes><Profile></Profile></PrivateRoutes> 
+        },
+        {
+          path: "/myassets",
+          element: <PrivateRoutes><MyAssets></MyAssets></PrivateRoutes> 
+        },
+        
+        {
+          path: "/packages",
+          element: <OurPackages></OurPackages>
         }
+        
 
       ]
     },

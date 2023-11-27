@@ -12,6 +12,7 @@ const Payment = () => {
     const {payment} = useAuth()
     const [paymentDue, setPaymentDue] = useState(5);
     const [memberLimit, setMemberLimit] = useState(0)
+    console.log(payment)
     useEffect(()=>{
         if(payment === "basic"){
             setPaymentDue(5);
@@ -25,7 +26,7 @@ const Payment = () => {
             setPaymentDue(15)
             setMemberLimit(20);
         }
-    } ,[payment])
+    } ,[])
     return (
         <div>
              <Helmet>

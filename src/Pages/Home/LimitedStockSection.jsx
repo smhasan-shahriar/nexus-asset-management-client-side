@@ -17,7 +17,7 @@ const LimitedStockSection = () => {
         enabled: !pending,
         queryFn: getAssets,
       });
-      const filteredList = assetList.filter(item => item.assetQuantity < 10)
+      const filteredList = assetList?.filter(item => item.assetQuantity < 10)
     return (
         <div className='my-10'>
         <h1 className="text-5xl w-full flex justify-center items-center text-black py-10">

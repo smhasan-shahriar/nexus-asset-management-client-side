@@ -3,12 +3,13 @@ import { NavLink, useNavigate } from "react-router-dom";
 import useRole from "../../../Hooks/useRole";
 import useAuth from "../../../Hooks/useAuth";
 import { toast } from "react-toastify";
+import Skeleton, { SkeletonTheme } from "react-loading-skeleton";
 
 const Navbar = () => {
   const [isOpen, setIsOpen] = useState(false);
   const { user, loading, logOut } = useAuth();
+  const [currentUser, pending] = useRole()
   const navigate = useNavigate();
-  const newUser = useRole()[0];
   const handleLogOut = () => {
     logOut()
     .then (() => {
@@ -16,8 +17,15 @@ const Navbar = () => {
       navigate('/')
     })
   }
-  if(loading){
-    return <p>...........</p>
+  if(loading || pending){
+    return (
+      <div className="w-full h-[80vh] flex justify-center items-center">
+        <span className="loading loading-spinner loading-xs"></span>
+        <span className="loading loading-spinner loading-sm"></span>
+        <span className="loading loading-spinner loading-md"></span>
+        <span className="loading loading-spinner loading-lg"></span>
+      </div>
+    );
   }
 
   const navLinks = (
@@ -36,7 +44,7 @@ const Navbar = () => {
         </>
       )}
 
-      {user && newUser?.role ==="employee" && (
+      {user && currentUser?.role ==="employee" && (
         <>
           <li>
             <NavLink to="/myteam">My Team</NavLink>
@@ -55,7 +63,7 @@ const Navbar = () => {
           </li>
         </>
       )}
-      {user && newUser?.role ==="admin" &&  (
+      {user && currentUser?.role ==="admin" &&  (
         <>
           <li>
             <NavLink to="/myemployees">My Employee List</NavLink>

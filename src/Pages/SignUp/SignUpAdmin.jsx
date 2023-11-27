@@ -8,7 +8,7 @@ import axios from 'axios';
 import { Navigate, useNavigate } from 'react-router-dom';
 import { Helmet } from 'react-helmet';
 const SignUpAdmin = () => {
-    const { createUser, updateUserProfile, socialLogIn, updatePayment } = useAuth();
+    const { createUser, updateUserProfile, socialLogIn, updatePayment, payment } = useAuth();
     const currentDate = new Date();
     const axiosPublic = useAxiosPublic();
     const navigate = useNavigate()
@@ -38,24 +38,22 @@ const SignUpAdmin = () => {
             image: response.data.data.display_url,
             role: "admin",
             dateOfBirth: data.dateOfBirth,
-            package: data.package
+            package: data.package,
+            employeeLimit: 0
           };
-          console.log(newAdminUser);
+          updatePayment(newAdminUser.package)
+          console.log(newAdminUser, payment);
           createUser(data.email, data.password).then((result) => {
             updateUserProfile(data.name, newAdminUser.image).then(() => {
               axiosPublic.post("/users", newAdminUser).then((res) => {
                 console.log(res.data);
               });
-              const pack = newAdminUser.package
-              updatePayment(pack)
               navigate('/payment');
             });
           });
         }
       };
-      const handleTest = () => {
-        return <Navigate to="/payment"></Navigate>
-      }
+   
     return (
       <>
       <Helmet>
@@ -161,7 +159,6 @@ const SignUpAdmin = () => {
                     <span className="label-text">Select a package</span>
                   </label>
                   <select className="select select-bordered w-full max-w-xs" {...register("package")}>
-                  <option disabled>Select a Package</option>
         <option value="basic">5 Members for $5
 </option>
         <option value="standard">10 Members for $8</option>
@@ -177,7 +174,6 @@ const SignUpAdmin = () => {
               </form>
               
             </div>
-            <button onClick={handleTest} className='btn btn-secondary'>check</button>
           </div>
         </div>
       </div>

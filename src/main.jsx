@@ -8,6 +8,8 @@ import AuthProvider from "./Providers/AuthProvider.jsx";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import 'react-awesome-slider/dist/styles.css';
+import Skeleton from 'react-loading-skeleton'
+import 'react-loading-skeleton/dist/skeleton.css'
 import {
   QueryClient,
   QueryClientProvider,

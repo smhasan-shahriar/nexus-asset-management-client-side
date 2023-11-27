@@ -1,13 +1,14 @@
 import { useForm } from "react-hook-form";
 import { FaGoogle } from "react-icons/fa";
 import useAuth from "../../Hooks/useAuth";
-import { useNavigate } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import useAxiosPublic from "../../Hooks/useAxiosPublic";
 import { Helmet } from "react-helmet";
 
 const Login = () => {
   const {logIn, socialLogIn} = useAuth();
   const navigate = useNavigate();
+  const location = useLocation();
   const axiosPublic = useAxiosPublic()
   const handleSocialLogin = () => {
     socialLogIn().then((result) => {
@@ -21,7 +22,7 @@ const Login = () => {
       axiosPublic.post("/users", newUser).then((res) => {
         console.log(res.data);
       });
-      navigate("/");
+      navigate(location?.state ? location.state : "/");
     });
   };
     const {
@@ -34,7 +35,7 @@ const Login = () => {
         logIn(data.email, data.password)
         .then(result => {
           console.log(result.user)
-          navigate('/')
+          navigate(location?.state ? location.state : "/");
         })
       };
     return (
