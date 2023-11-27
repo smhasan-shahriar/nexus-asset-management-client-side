@@ -20,7 +20,7 @@ const LimitedStockSection = () => {
       const filteredList = assetList?.filter(item => item.assetQuantity < 10)
     return (
         <div className='my-10'>
-        <h1 className="text-5xl w-full flex justify-center items-center text-black py-10">
+        <h1 className="text-5xl text-center w-full flex justify-center items-center text-black py-10">
           Limited Stock Section
         </h1>
         <div className="flex justify-center">

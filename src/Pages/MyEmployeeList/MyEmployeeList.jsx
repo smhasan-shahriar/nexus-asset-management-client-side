@@ -32,7 +32,7 @@ const MyEmployeeList = () => {
   });
 
   const handleRemoveEmployee = (email) => {
-    const updatedUser = { userCompany: "none" };
+    const updatedUser = { userCompany: "none", companyImage: ""};
     axiosPublic.put(`/manage-team-member/${email}`, updatedUser).then((res) => {
       if (res.data.modifiedCount > 0) {
         toast("team member removed successfully");
@@ -52,7 +52,7 @@ const MyEmployeeList = () => {
         <p>Existing Members: {existingUsers?.length}</p>
         <p>Your Limit: {user?.employeeLimit}</p>
       </h1>
-      <div className="overflow-x-auto">
+      <div className="overflow-x-auto" style={{"minHeight" : "calc(100vh - 508px)"}}>
         <table className="table">
           {/* head */}
           <thead>

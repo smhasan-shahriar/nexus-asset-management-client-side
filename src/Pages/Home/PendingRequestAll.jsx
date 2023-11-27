@@ -18,7 +18,7 @@ const PendingRequestAll = () => {
     const pendingRequest = requestList?.filter(item => item.status === 'pending').slice(0,4)
     return (
         <div className='my-10'>
-      <h1 className="text-5xl w-full flex justify-center items-center text-black py-10">
+      <h1 className="text-5xl text-center w-full flex justify-center items-center text-black py-10">
         All Pending Requests
       </h1>
       <div className="flex justify-center">

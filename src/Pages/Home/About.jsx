@@ -5,13 +5,13 @@ import { FcStatistics } from "react-icons/fc";
 
 const About = () => {
     return (
-        <div className='my-10 lg:my-20'>
+        <div className='my-10 lg:my-20 px-2'>
             <Heading heading="About" subHeading="The Features"></Heading>
-            <div className='shadow-xl flex gap-5 items-center h-[300px]'>
-                <div className='font-extrabold text-3xl h-full w-1/3 bg-blue-300 flex items-center justify-center'>
+            <div className='shadow-xl flex flex-col lg:flex-row gap-5 items-center h-[320px] text-center'>
+                <div className='font-extrabold text-3xl h-full lg:w-1/3 w-full min-w-[300px] bg-blue-300 flex items-center justify-center'>
                     For HR/Administration
                 </div>
-                <div className='grid grid-cols-4 gap-5'>
+                <div className='grid grid-cols-2 lg:grid-cols-4 gap-5'>
                     <div className='flex flex-col justify-center items-center gap-2 text-3xl'>
                         <FaSuitcase></FaSuitcase>
                         <p>Create Asset</p>
@@ -31,11 +31,11 @@ const About = () => {
                 </div>
                 
             </div>
-            <div className='shadow-xl flex gap-5 items-center h-[300px] my-5'>
-                <div className='font-extrabold text-3xl h-full w-1/3 bg-blue-300 flex items-center justify-center'>
+            <div className='shadow-xl flex flex-col lg:flex-row gap-5 items-center h-[300px] my-5 text-center'>
+                <div className='font-extrabold text-3xl h-full lg:w-1/3 w-full min-w-[300px] bg-blue-300 flex items-center justify-center'>
                     For Employees
                 </div>
-                <div className='grid grid-cols-4 gap-5'>
+                <div className='grid  grid-cols-2 lg:grid-cols-4  gap-5'>
                     <div className='flex flex-col justify-center items-center gap-2 text-3xl'>
                         <FaSuitcase></FaSuitcase>
                         <p>Request Asset</p>

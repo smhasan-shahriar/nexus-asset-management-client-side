@@ -31,7 +31,7 @@ const MostRequestedAdmin = () => {
     console.log(mostRequests)
     return (
         <div className='my-10'>
-        <h1 className="text-5xl w-full flex justify-center items-center text-black py-10">
+        <h1 className="text-5xl text-center w-full flex justify-center items-center text-black py-10">
           Top Most Requested Items
         </h1>
         <div className="flex justify-center">

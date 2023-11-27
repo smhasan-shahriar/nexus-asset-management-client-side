@@ -1,61 +1,72 @@
-import React from 'react';
+import React from "react";
 import { useForm } from "react-hook-form";
 import { FaGoogle } from "react-icons/fa";
-import useAuth from '../../Hooks/useAuth';
-import useAxiosPublic from '../../Hooks/useAxiosPublic';
-import { toast } from 'react-toastify';
-import axios from 'axios';
-import { Navigate, useNavigate } from 'react-router-dom';
-import { Helmet } from 'react-helmet';
+import useAuth from "../../Hooks/useAuth";
+import useAxiosPublic from "../../Hooks/useAxiosPublic";
+import { toast } from "react-toastify";
+import axios from "axios";
+import { Navigate, useNavigate } from "react-router-dom";
+import { Helmet } from "react-helmet";
 const SignUpAdmin = () => {
-    const { createUser, updateUserProfile, socialLogIn, updatePayment, payment } = useAuth();
-    const currentDate = new Date();
-    const axiosPublic = useAxiosPublic();
-    const navigate = useNavigate()
-    const {
-        register,
-        handleSubmit,
-        formState: { errors },
-      } = useForm();
-      const onSubmit = async (data) => {
-        const inputDate = new Date(data.dateOfBirth);
-        if (inputDate > currentDate) {
-          toast("Date of Birth Should be in the past");
-          return;
-        }
-        console.log(currentDate, inputDate, data)
-        const image_hosting_key = import.meta.env.VITE_IMAGE_API;
-        const image_hosting_api = `https://api.imgbb.com/1/upload?key=${image_hosting_key}`;
-        const imageFile = { image: data.image[0] };
-        const response = await axios.post(image_hosting_api, imageFile, {
-          headers: { "content-type": "multipart/form-data" },
-        });
-        if (response.data.success) {
-          const newAdminUser = {
-            name: data.name,
-            userCompany: data.userCompany,
-            email: data.email,
-            image: response.data.data.display_url,
-            role: "admin",
-            dateOfBirth: data.dateOfBirth,
-            package: data.package,
-            employeeLimit: 0
-          };
-          updatePayment(newAdminUser.package)
-          console.log(newAdminUser, payment);
-          createUser(data.email, data.password).then((result) => {
-            updateUserProfile(data.name, newAdminUser.image).then(() => {
-              axiosPublic.post("/users", newAdminUser).then((res) => {
-                console.log(res.data);
-              });
-              navigate('/payment');
-            });
-          });
-        }
+  const { createUser, updateUserProfile, socialLogIn, updatePayment, payment } =
+    useAuth();
+  const currentDate = new Date();
+  const axiosPublic = useAxiosPublic();
+  const navigate = useNavigate();
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+  } = useForm();
+  const onSubmit = async (data) => {
+    const inputDate = new Date(data.dateOfBirth);
+    if (inputDate > currentDate) {
+      toast("Date of Birth Should be in the past");
+      return;
+    }
+    console.log(currentDate, inputDate, data);
+    const image_hosting_key = import.meta.env.VITE_IMAGE_API;
+    const image_hosting_api = `https://api.imgbb.com/1/upload?key=${image_hosting_key}`;
+    const companyImageFile = { image: data.companyImage[0] };
+    const responseCompany = await axios.post(
+      image_hosting_api,
+      companyImageFile,
+      {
+        headers: { "content-type": "multipart/form-data" },
+      }
+    );
+    const userImageFile = { image: data.userImage[0] };
+    const responseUser = await axios.post(image_hosting_api, userImageFile, {
+      headers: { "content-type": "multipart/form-data" },
+    });
+    if (responseCompany.data.success && responseUser.data.success) {
+      const newAdminUser = {
+        name: data.name,
+        userCompany: data.userCompany,
+        email: data.email,
+        image: responseUser.data.data.display_url,
+        companyImage: responseCompany.data.data.display_url,
+        role: "admin",
+        dateOfBirth: data.dateOfBirth,
+        package: data.package,
+        employeeLimit: 0,
       };
-   
-    return (
-      <>
+      console.log(newAdminUser);
+      updatePayment(newAdminUser.package)
+      console.log(newAdminUser, payment);
+      createUser(data.email, data.password).then((result) => {
+        updateUserProfile(data.name, newAdminUser.image).then(() => {
+          axiosPublic.post("/users", newAdminUser).then((res) => {
+            console.log(res.data);
+          });
+          navigate('/payment');
+        });
+      });
+    }
+  };
+
+  return (
+    <>
       <Helmet>
         <title>Nexus | Sign Up</title>
       </Helmet>
@@ -63,7 +74,9 @@ const SignUpAdmin = () => {
         <div className="hero min-h-screen bg-gradient-to-r from-cyan-500 to-blue-500">
           <div className="hero-content flex-col gap-5">
             <div className="text-center lg:text-left">
-              <h1 className="text-5xl font-bold text-white">Join as HR/Admin now!</h1>
+              <h1 className="text-5xl font-bold text-white">
+                Join as HR/Admin now!
+              </h1>
             </div>
             <div className="w-full shadow-2xl bg-base-100">
               <form className="card-body" onSubmit={handleSubmit(onSubmit)}>
@@ -95,7 +108,21 @@ const SignUpAdmin = () => {
                   <label className="label">
                     <span className="label-text">Company Logo</span>
                   </label>
-                  <input {...register("image")} type="file" className="file-input w-full max-w-xs" />
+                  <input
+                    {...register("companyImage")}
+                    type="file"
+                    className="file-input w-full max-w-xs"
+                  />
+                </div>
+                <div className="form-control">
+                  <label className="label">
+                    <span className="label-text">Your Image</span>
+                  </label>
+                  <input
+                    {...register("userImage")}
+                    type="file"
+                    className="file-input w-full max-w-xs"
+                  />
                 </div>
                 <div className="form-control">
                   <label className="label">
@@ -114,7 +141,7 @@ const SignUpAdmin = () => {
                     <span className="label-text">Password</span>
                   </label>
                   <input
-                     {...register("password", {
+                    {...register("password", {
                       required: true,
                       minLength: 8,
                       maxLength: 16,
@@ -125,7 +152,7 @@ const SignUpAdmin = () => {
                     className="input input-bordered"
                     required
                   />
-                   {errors.password?.type === "required" && (
+                  {errors.password?.type === "required" && (
                     <p role="alert">Password is required</p>
                   )}
                   {errors.password?.type === "minLength" && (
@@ -158,13 +185,14 @@ const SignUpAdmin = () => {
                   <label className="label">
                     <span className="label-text">Select a package</span>
                   </label>
-                  <select className="select select-bordered w-full max-w-xs" {...register("package")}>
-        <option value="basic">5 Members for $5
-</option>
-        <option value="standard">10 Members for $8</option>
-        <option value="pro">20 Members for $15
-</option>
-      </select>
+                  <select
+                    className="select select-bordered w-full"
+                    {...register("package")}
+                  >
+                    <option value="basic">5 Members for $5</option>
+                    <option value="standard">10 Members for $8</option>
+                    <option value="pro">20 Members for $15</option>
+                  </select>
                 </div>
                 <input
                   className="btn btn-primary"
@@ -172,14 +200,12 @@ const SignUpAdmin = () => {
                   value="Sign Up"
                 />
               </form>
-              
             </div>
           </div>
         </div>
       </div>
-      </>
-        
-    );
+    </>
+  );
 };
 
 export default SignUpAdmin;

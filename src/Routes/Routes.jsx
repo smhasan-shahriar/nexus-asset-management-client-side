@@ -74,11 +74,12 @@ export const router = createBrowserRouter([
           path: "/myemployees",
           element: <AdminRoute><MyEmployeeList></MyEmployeeList></AdminRoute> 
         },
+        //employee routes
         {
           path: "/myteam",
-          element: <AdminRoute><MyTeam></MyTeam></AdminRoute> 
+          element: <PrivateRoutes><MyTeam></MyTeam></PrivateRoutes>
         },
-        //employee routes
+        
         {
           path: "/requestasset",
           element: <PrivateRoutes><RequestAsset></RequestAsset></PrivateRoutes> 

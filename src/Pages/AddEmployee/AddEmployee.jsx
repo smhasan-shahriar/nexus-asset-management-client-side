@@ -5,6 +5,7 @@ import { useQuery } from "@tanstack/react-query";
 import { Helmet } from "react-helmet";
 import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
+import { RiAdminLine, RiUser3Line } from "react-icons/ri";
 
 const AddEmployee = () => {
   const [user, pending] = useRole();
@@ -32,7 +33,7 @@ const AddEmployee = () => {
   });
 
   const handleAddEmployee = (email) => {
-    const updatedUser = {userCompany: user?.userCompany }
+    const updatedUser = {userCompany: user?.userCompany, companyImage: user?.companyImage }
     axiosPublic.put(`/manage-team-member/${email}`, updatedUser)
     .then(res => {
       if(res.data.modifiedCount > 0){
@@ -53,12 +54,12 @@ const AddEmployee = () => {
       <h1 className="text-5xl w-full bg-black flex justify-center items-center text-white py-20">
         Add Employee
       </h1>
-      <h1 className="text-2xl w-full bg-black flex justify-evenly items-center text-white py-10 my-5">
+      <h1 className="text-2xl w-full bg-black flex justify-evenly items-center text-white py-10 my-5 px-5">
         <p>Existing Members: {currentMembers}</p>
         <p>Your Limit: {limit}</p>
         <button onClick={() => navigate("/packages")} className="btn">Increase Limit</button>
       </h1>
-      <div className="overflow-x-auto">
+      <div className="overflow-x-auto"  style={{"minHeight" : "calc(100vh - 524px)"}}>
         <table className="table">
           {/* head */}
           <thead>
@@ -95,7 +96,8 @@ const AddEmployee = () => {
                   </div>
                 </td>
                 <td>{user.name}</td>
-                <td className="btn">{user.role}</td>
+                <td className="text-xl font-bold"> {user.role === "admin" && <RiAdminLine />}
+                        {user.role === "employee" && <RiUser3Line />}</td>
                 <th>
                   <button disabled= {currentMembers > limit } onClick={() => handleAddEmployee(user.email)} className="btn bg-green-500 text-white">Add</button>
                 </th>
