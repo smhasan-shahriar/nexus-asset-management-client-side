@@ -63,6 +63,7 @@ const SignUpEmployee = () => {
             console.log(res.data);
           });
           navigate("/");
+          window.location.reload();
         });
       }) .catch((error) => {
         toast(error.message)
