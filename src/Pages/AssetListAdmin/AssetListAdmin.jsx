@@ -4,6 +4,8 @@ import useAxiosPublic from "../../Hooks/useAxiosPublic";
 import { Helmet } from "react-helmet";
 import useRole from "../../Hooks/useRole";
 import { Link, useNavigate } from "react-router-dom";
+import "./AssetList.css"
+import { useEffect } from "react";
 
 const AssetListAdmin = () => {
   const axiosPublic = useAxiosPublic();
@@ -11,10 +13,12 @@ const AssetListAdmin = () => {
   const [searchField, setSearchField] = useState("");
   const [quantityStatus, setQuantityStatus] = useState("");
   const [currentUser, pending] = useRole();
+  const [currentPage, setCurrentPage] = useState(0);
+  const [itemsPerPage, setItemsPerPage] = useState(10);
   const navigate = useNavigate()
   const getAssets = async () => {
     const response = await axiosPublic.get(
-      `/assets?sortField=assetQuantity&sortOrder=${quantityIndex}&search=${searchField}&quantityStatus=${quantityStatus}&companySearch=${currentUser?.userCompany}`
+      `/assets?sortField=assetQuantity&sortOrder=${quantityIndex}&search=${searchField}&quantityStatus=${quantityStatus}&companySearch=${currentUser?.userCompany}&page=${currentPage}&size=${itemsPerPage}`
     );
     return response.data;
   };
@@ -24,10 +28,55 @@ const AssetListAdmin = () => {
     setSearchField(search);
   };
   const { data: assetList } = useQuery({
-    queryKey: ["allAssets", quantityIndex, searchField, quantityStatus],
+    queryKey: ["allAssets", quantityIndex, searchField, quantityStatus, itemsPerPage, currentPage],
     enabled: !pending,
     queryFn: getAssets,
   });
+  const [count, setCount] = useState(0);
+  const getAssetsCount = async () => {
+    const response = await axiosPublic.get(
+      `/assetscount?companySearch=${currentUser?.userCompany}`
+    );
+    return response.data;
+  };
+  const { data: assetListCount } = useQuery({
+    queryKey: ["allAssetsCount"],
+    enabled: !pending,
+    queryFn: getAssetsCount,
+    onSuccess: data => {
+      setCount(data.count)
+      console.log(data.count)
+    }
+  });
+ useEffect(()=> {
+  setCount(assetListCount.count)
+ },[assetListCount])
+ 
+
+  const numberOfPages = Math.ceil(count / itemsPerPage);
+  console.log(count)
+  const pages = [...Array(numberOfPages).keys()];
+  const handleItemsPerPage = (e) => {
+    const value = e.target.value;
+    const number = parseInt(value);
+    setItemsPerPage(number);
+    setCurrentPage(0);
+  };
+  const handlePrevious = () => {
+    if (currentPage === 0) {
+      setCurrentPage(0);
+    } else {
+      setCurrentPage(currentPage - 1);
+    }
+  };
+
+  const handleNext = () => {
+    if (currentPage === numberOfPages - 1) {
+      setCurrentPage(numberOfPages - 1);
+    } else {
+      setCurrentPage(currentPage + 1);
+    }
+  };
   return (
     <div>
       <Helmet>
@@ -103,7 +152,7 @@ const AssetListAdmin = () => {
             <tbody>
               {assetList?.map((asset, index) => (
                 <tr key={index}>
-                  <th>{index + 1}</th>
+                  <th>{index + 1 + currentPage * itemsPerPage}</th>
                   <td>{asset.assetName}</td>
                   <td>{asset.assetQuantity}</td>
                   <td>{new Date(asset.dateAdded).toLocaleDateString()}</td>
@@ -123,6 +172,31 @@ const AssetListAdmin = () => {
             </tbody>
           </table>
         </div>
+        <div className="pagination">
+        <p>Current Page : {currentPage + 1}</p>
+        <button onClick={handlePrevious}>Previous</button>
+        {pages.map((page) => (
+          <button
+            className={currentPage === page ? "selected" : ""}
+            key={page}
+            onClick={() => setCurrentPage(page)}
+          >
+            {page + 1}
+          </button>
+        ))}
+        <button onClick={handleNext}>Next</button>
+        <select
+          value={itemsPerPage}
+          name=""
+          id=""
+          onChange={handleItemsPerPage}
+        >
+          <option value="5">5</option>
+          <option value="10">10</option>
+          <option value="20">20</option>
+          <option value="50">50</option>
+        </select>
+      </div>
       </div>
     </div>
   );
