@@ -4,7 +4,7 @@ import useAxiosPublic from "../../Hooks/useAxiosPublic";
 import useRole from "../../Hooks/useRole";
 import { useQuery } from "@tanstack/react-query";
 import { toast } from "react-toastify";
-import { PDFDownloadLink } from "@react-pdf/renderer";
+import { PDFDownloadLink, PDFViewer } from "@react-pdf/renderer";
 import PrintComponent from "../../Components/PrintCompnent/PrintComponent";
 
 const MyAssets = () => {
@@ -46,6 +46,7 @@ const MyAssets = () => {
       .put(`/manage-request/${asset._id}`, {
         assetId: assetId,
         newStatus: "returned",
+        actionDate: new Date(asset.actionDate)
       })
       .then((res) => {
         if (res.data.modifiedCount > 0) {
@@ -145,6 +146,8 @@ const MyAssets = () => {
                 <td>
                   {asset.status === "approved" &&
                     new Date(asset.actionDate).toLocaleDateString()}
+                    {asset.status === "returned" &&
+                    new Date(asset.actionDate).toLocaleDateString()}
                   {asset.status === "rejected" && "request rejected"}
                   {asset.status === "pending" && ""}
                 </td>
@@ -158,8 +161,8 @@ const MyAssets = () => {
                       Cancel Request
                     </button>
                   )}
-                  {asset.status === "approved" ||
-                    (asset.status === "returned" && (
+                  {asset.status === "approved"
+                     && (
                       <>
                         <div className="inline">
                           <PDFDownloadLink
@@ -174,9 +177,25 @@ const MyAssets = () => {
                         </div>{" "}
                        
                       </>
-                    ))}
-                  {(asset.status === "approved" &&
-                    asset.assetType === "returnable") ||
+                    )}
+                    {asset.status === "returned"
+                     && (
+                      <>
+                        <div className="inline">
+                          <PDFDownloadLink
+                            document={<PrintComponent data={asset}/>}
+                            fileName="somename.pdf"
+                            className="btn bg-green-500 text-white"
+                          >
+                            {({ blob, url, loading, error }) =>
+                              loading ? "Loading document..." : "Print"
+                            }
+                          </PDFDownloadLink>
+                        </div>{" "}
+                       
+                      </>
+                    )}
+                  {
                     (asset.status === "returned" && (
                       <button
                         disabled={asset.status === "returned"}
@@ -186,6 +205,16 @@ const MyAssets = () => {
                         Return Item
                       </button>
                     ))}
+                    {(asset.status === "approved" &&
+                    asset.assetType === "returnable") && (
+                      <button
+                        disabled={asset.status === "returned"}
+                        onClick={() => handleReturnRequest(asset)}
+                        className="btn bg-yellow-500 text-white"
+                      >
+                        Return Item
+                      </button>
+                    )}
                 </td>
               </tr>
             ))}

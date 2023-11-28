@@ -80,9 +80,9 @@ if (confirmError) {
         axiosPublic.put(`/adminusers/${user?.email}`, updatedUser)
         .then(res => {
           if(res.data.modifiedCount > 0){
-            toast(`Payment Successful. your transact id ${paymentIntent.id}`)
             navigate('/')
             window.location.reload();
+            toast(`Payment Successful. your transact id ${paymentIntent.id}`)
           }
         })
         

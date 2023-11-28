@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import useAxiosPublic from "../../Hooks/useAxiosPublic";
 import { toast } from "react-toastify";
 
-const CustomRequestCard = ({ data }) => {
+const CustomRequestCard = ({ data, customRequestListRefetch }) => {
   const [updateClick, setUpdateClick] = useState(false);
   const axiosPublic = useAxiosPublic()
   const handleUpdate = (e) => {
@@ -23,6 +23,7 @@ const CustomRequestCard = ({ data }) => {
             toast("Custom request successfully updated")
             setUpdateClick(false);
             document.getElementById("my_modal_1").close()
+            customRequestListRefetch();
         }
     })
 
@@ -40,7 +41,8 @@ const CustomRequestCard = ({ data }) => {
         </figure>
         <div className="card-body">
           <h2 className="card-title">{data.assetName}</h2>
-          <p>{data.assetType}</p>
+          <p>Type: {data.assetType}</p>
+          <p>Price: ${data.assetPrice}</p>
           <p>Status: {data.status}</p>
           <div className="card-actions justify-end">
             <button

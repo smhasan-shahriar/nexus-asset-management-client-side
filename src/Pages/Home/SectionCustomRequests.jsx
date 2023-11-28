@@ -21,12 +21,19 @@ const SectionCustomRequests = () => {
       });
     return (
         <div>
-            <h1 className="text-5xl w-full flex justify-center items-center text-black py-10">
+            
+      {customRequestList?.length === 0 && <div className='hidden'>
+       { customRequestList?.map(item => <CustomRequestCard key={item._id} data={item}></CustomRequestCard> )}
+      </div>}
+      {customRequestList?.length > 0 && <div>
+        <h1 className="text-5xl w-full flex justify-center items-center text-black py-10">
         My Custom Requests
       </h1>
-      <div className='grid grid-cols-1 md:grid-cols-3 lg:grid-cols-4 gap-10 my-10'>
-       { customRequestList?.map(item => <CustomRequestCard key={item._id} data={item}></CustomRequestCard> )}
-      </div>
+        <div className='grid grid-cols-1 md:grid-cols-3 lg:grid-cols-4 gap-10 my-10'>
+         { customRequestList?.map(item => <CustomRequestCard key={item._id} data={item} customRequestListRefetch={customRequestListRefetch}></CustomRequestCard> )}
+        </div>
+      </div>}
+      
         </div>
     );
 };

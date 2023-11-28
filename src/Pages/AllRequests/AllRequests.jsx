@@ -5,18 +5,21 @@ import useRole from '../../Hooks/useRole';
 import { Helmet } from 'react-helmet';
 import { toast } from 'react-toastify';
 import PrintComponent from '../../Components/PrintCompnent/PrintComponent';
+import { useState } from 'react';
 
 const AllRequests = () => {
     const axiosPublic = useAxiosPublic()
     const [currentUser, pending] = useRole();
-    const currentDate = new Date()
+    const [userName, setUserName] = useState('');
+    const [userEmail, setUserEmail] = useState('');
+    const currentDate = new Date();
     const getRequests = async () => {
-        const response = await axiosPublic.get(`/allrequests?companySearch=${currentUser.userCompany}`)
+        const response = await axiosPublic.get(`/allrequests?companySearch=${currentUser.userCompany}&nameSearch=${userName}&emailSearch=${userEmail}`)
         return response.data.singleResult;
       }
     
       const {data: requestList, refetch: requestListRefetch} = useQuery({
-          queryKey: ["allRequests", currentUser?.userCompany],
+          queryKey: ["allRequests", currentUser?.userCompany,userName, userEmail],
           enabled: !pending,
           queryFn: getRequests
       })
@@ -40,6 +43,16 @@ const AllRequests = () => {
           }
         })
       }
+      const handleNameSearch = (e) => {
+        e.preventDefault();
+        const nameSearch = e.target.nameSearch.value;
+        setUserName(nameSearch);
+      };
+      const handleEmailSearch = (e) => {
+        e.preventDefault();
+        const emailSearch = e.target.emailSearch.value;
+        setUserEmail(emailSearch);
+      };
 
 
     return (
@@ -51,8 +64,8 @@ const AllRequests = () => {
         All Requests
       </h1>
       <div className='flex flex-col lg:flex-row items-center m-10 justify-between'>
-            <form >
-                <input
+            <form onSubmit={handleNameSearch}>
+                <input onChange={(e) => setUserName(e.target.value)}
                   name="nameSearch"
                   className="text-sm p-[13px] md:w-[360px] w-[220px] border border-r-0"
                   type="text"
@@ -64,8 +77,8 @@ const AllRequests = () => {
                   value="Search"
                 ></input>
             </form>
-            <form >
-                <input
+            <form onSubmit={handleEmailSearch}>
+                <input onChange={(e) => setUserEmail(e.target.value)}
                   name="emailSearch"
                   className="text-sm p-[13px] md:w-[360px] w-[220px] border border-r-0"
                   type="email"
@@ -107,10 +120,10 @@ const AllRequests = () => {
                   <td>{request.additionalNote}</td>
                   <td>{request.status}</td>
                   <td className="">
-                    <button  onClick={() => handleApprove(request)}  disabled={request.status === "rejected" || request.status === "approved"} className="btn bg-green-600 text-white">
+                    <button  onClick={() => handleApprove(request)}  disabled={request.status === "rejected" || request.status === "approved" || request.status === "returned"} className="btn bg-green-600 text-white">
                       Approve
                     </button>
-                    <button onClick={() => handleReject(request._id)}  disabled={request.status === "rejected" || request.status === "approved"} className="btn bg-red-600 text-white">
+                    <button onClick={() => handleReject(request._id)}  disabled={request.status === "rejected" || request.status === "approved"|| request.status === "returned"} className="btn bg-red-600 text-white">
                       Reject
                     </button>
                   </td>

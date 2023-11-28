@@ -23,7 +23,7 @@ const HomeUser = () => {
       });
 
     return (
-        <div>
+        <div className='text-center'>
             <SectionCustomRequests></SectionCustomRequests>
             <SectionPendingRequests requests={myAssetList}></SectionPendingRequests>
             <SectionMonthlyRequests requests={myAssetList}></SectionMonthlyRequests>

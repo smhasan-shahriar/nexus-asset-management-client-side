@@ -26,7 +26,7 @@ const Payment = () => {
             setPaymentDue(15)
             setMemberLimit(20);
         }
-    } ,[])
+    } ,[payment])
     return (
         <div>
              <Helmet>

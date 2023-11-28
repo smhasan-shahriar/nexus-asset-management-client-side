@@ -2,7 +2,9 @@ import React from 'react';
 import Heading from '../../Components/Shared/Heading/Heading';
 import { FaPager, FaSuitcase, FaUsers } from 'react-icons/fa';
 import { FcStatistics } from "react-icons/fc";
-
+import { MdDashboardCustomize, MdEvent } from "react-icons/md";
+import { ImProfile } from "react-icons/im";
+import { FaPenNib } from "react-icons/fa";
 const About = () => {
     return (
         <div className='my-10 lg:my-20 px-2'>
@@ -37,19 +39,19 @@ const About = () => {
                 </div>
                 <div className='grid  grid-cols-2 lg:grid-cols-4  gap-5'>
                     <div className='flex flex-col justify-center items-center gap-2 text-3xl'>
-                        <FaSuitcase></FaSuitcase>
+                        <FaPenNib />
                         <p>Request Asset</p>
                     </div>
                     <div className='flex flex-col justify-center items-center gap-2 text-3xl'>
-                        <FaPager></FaPager>
+                        <MdDashboardCustomize />
                         <p>Custom Request</p>
                     </div>
                     <div className='flex flex-col text-center justify-center items-center gap-2 text-3xl'>
-                        <FaUsers></FaUsers>
+                        <MdEvent />
                         <p>Events</p>
                     </div>
                     <div className='flex flex-col justify-center items-center gap-2 text-3xl'>
-                    <FcStatistics />
+                    <ImProfile />
                         <p>Manage Profile</p>
                     </div>
                 </div>

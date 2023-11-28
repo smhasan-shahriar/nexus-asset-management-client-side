@@ -60,6 +60,7 @@ const SignUpAdmin = () => {
             console.log(res.data);
           });
           navigate('/payment');
+          window.location.reload();
         });
       }).catch((error) => {
         toast(error.message)
@@ -187,10 +188,11 @@ const SignUpAdmin = () => {
                   <label className="label">
                     <span className="label-text">Select a package</span>
                   </label>
-                  <select
+                  <select onChange={e => updatePayment(e.target.value)}
                     className="select select-bordered w-full"
                     {...register("package")}
                   >
+                    <option disabled>Select a Package</option>
                     <option value="basic">5 Members for $5</option>
                     <option value="standard">10 Members for $8</option>
                     <option value="pro">20 Members for $15</option>

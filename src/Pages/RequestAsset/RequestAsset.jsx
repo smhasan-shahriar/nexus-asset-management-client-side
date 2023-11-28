@@ -140,7 +140,7 @@ const RequestAsset = () => {
                 <th>{index + 1}</th>
                 <td>{asset.assetName}</td>
                 <td>{asset.assetType}</td>
-                <td>{parseInt(asset.assetQuantity) ? 'Available' : 'Out of Stock'}</td>
+                <td>{parseInt(asset.assetQuantity) !== 0 ? 'Available' : 'Out of Stock'}</td>
                 <td className=""><button onClick={() => handleAddRequest(asset)} disabled={!parseInt(asset.assetQuantity)}  className="btn bg-blue-500 text-white">Request</button></td>
                 
               </tr>)

@@ -4,17 +4,19 @@ import useAxiosPublic from "../../Hooks/useAxiosPublic";
 import { Helmet } from "react-helmet";
 import useRole from "../../Hooks/useRole";
 import { Link, useNavigate } from "react-router-dom";
+import { toast } from "react-toastify";
 
 const AssetListAdmin = () => {
   const axiosPublic = useAxiosPublic();
   const [quantityIndex, setQuantityIndex] = useState("");
   const [searchField, setSearchField] = useState("");
   const [quantityStatus, setQuantityStatus] = useState("");
+  const [assetTypeField, setAssetTypeField] = useState('')
   const [currentUser, pending] = useRole();
   const navigate = useNavigate()
   const getAssets = async () => {
     const response = await axiosPublic.get(
-      `/assets?sortField=assetQuantity&sortOrder=${quantityIndex}&search=${searchField}&quantityStatus=${quantityStatus}&companySearch=${currentUser?.userCompany}`
+      `/assets?sortField=assetQuantity&sortOrder=${quantityIndex}&typeField=${assetTypeField}&search=${searchField}&quantityStatus=${quantityStatus}&companySearch=${currentUser?.userCompany}`
     );
     return response.data;
   };
@@ -23,11 +25,23 @@ const AssetListAdmin = () => {
     const search = e.target.search.value;
     setSearchField(search);
   };
-  const { data: assetList } = useQuery({
-    queryKey: ["allAssets", quantityIndex, searchField, quantityStatus],
+  const { data: assetList, refetch: assetListRefetch } = useQuery({
+    queryKey: ["allAssets", quantityIndex, searchField, quantityStatus, assetTypeField],
     enabled: !pending,
     queryFn: getAssets,
   });
+  const handleDelete = id => {
+    axiosPublic.delete(`/delete-asset/${id}`)
+    .then(res => {
+      if(res.data.deletedCount > 0){
+        toast('asset deleted');
+        assetListRefetch();
+      }
+      else{
+        toast(res.data.message)
+      }
+    })
+  }
   return (
     <div>
       <Helmet>
@@ -58,6 +72,16 @@ const AssetListAdmin = () => {
           </div>
           <div className="flex items-center gap-3">
             <label className="label">
+              <span className="label-text">Filter by Asset Type</span>
+            </label>
+            <select onChange={e => setAssetTypeField(e.target.value)} name="assetType" defaultValue="" className="input input-bordered">
+            <option value="">All</option>
+              <option value="returnable">Returnable</option>
+              <option value="nonreturnable">Non Returnable</option>
+            </select>
+          </div>
+          <div className="flex items-center gap-3">
+            <label className="label">
               <span className="label-text">Sort by Quantity</span>
             </label>
             <select
@@ -67,12 +91,13 @@ const AssetListAdmin = () => {
               className="input input-bordered"
             >
               <option value="">No Selection</option>
-              <option value="asc">low to high</option>
-              <option value="desc">high to low</option>
+              <option value="1">low to high</option>
+              <option value="-1">high to low</option>
             </select>
           </div>
           <div>
             <input
+            onChange={(e) => setSearchField(e.target.value)}
               name="search"
               className="text-sm p-[13px] md:w-[360px] w-[220px] border border-r-0"
               type="text"
@@ -94,6 +119,7 @@ const AssetListAdmin = () => {
               <tr>
                 <th>#</th>
                 <th>Product Name</th>
+                <th>Product Type</th>
                 <th>Product Quantity</th>
                 <th>Date Added</th>
                 <th>Update</th>
@@ -105,6 +131,7 @@ const AssetListAdmin = () => {
                 <tr key={index}>
                   <th>{index + 1}</th>
                   <td>{asset.assetName}</td>
+                  <td>{asset.assetType}</td>
                   <td>{asset.assetQuantity}</td>
                   <td>{new Date(asset.dateAdded).toLocaleDateString()}</td>
                   <td className="">
@@ -113,7 +140,7 @@ const AssetListAdmin = () => {
                     </Link>
                   </td>
                   <td className="">
-                    <button className="btn bg-red-600 text-white">
+                    <button onClick={()=> handleDelete(asset._id)} className="btn bg-red-600 text-white">
                       Delete
                     </button>
                   </td>

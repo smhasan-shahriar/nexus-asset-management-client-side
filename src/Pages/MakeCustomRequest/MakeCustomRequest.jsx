@@ -81,7 +81,7 @@ const MakeCustomRequest = () => {
           </div>
           <div className="form-control flex-1">
             <label className="label">
-              <span className="label-text">Asset Image URL</span>
+              <span className="label-text">Asset Image</span>
             </label>
             <input
               type="text"

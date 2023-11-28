@@ -57,7 +57,7 @@ const AuthProvider = ({children}) => {
               })
             }
             else{
-              localStorage.removeItem('secret-token')
+              localStorage.removeItem('token')
               setLoading(false)
             }
 

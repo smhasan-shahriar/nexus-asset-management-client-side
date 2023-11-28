@@ -16,9 +16,9 @@ const Navbar = () => {
       navigate("/");
     });
   };
-  if (loading || pending) {
+  if (pending) {
     return (
-      <div className="w-full h-[80vh] flex justify-center items-center">
+      <div className="w-full h-[10vh] flex justify-center items-center">
         <span className="loading loading-spinner loading-xs"></span>
         <span className="loading loading-spinner loading-sm"></span>
         <span className="loading loading-spinner loading-md"></span>

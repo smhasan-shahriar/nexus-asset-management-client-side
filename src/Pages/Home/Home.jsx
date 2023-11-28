@@ -13,7 +13,12 @@ const Home = () => {
   const { user, loading } = useAuth();
   const [currentUser, pending] = useRole();
   if (pending || loading) {
-    return <p>Loading</p>;
+    return  <div className="w-full h-[80vh] flex justify-center items-center">
+    <span className="loading loading-spinner loading-xs"></span>
+    <span className="loading loading-spinner loading-sm"></span>
+    <span className="loading loading-spinner loading-md"></span>
+    <span className="loading loading-spinner loading-lg"></span>
+  </div>;
   }
 
   return (

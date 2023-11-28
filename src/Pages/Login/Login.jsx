@@ -12,7 +12,6 @@ const Login = () => {
   const axiosPublic = useAxiosPublic()
   const handleSocialLogin = () => {
     socialLogIn().then((result) => {
-      console.log(result.user);
       const newUser = {
         name: result.user.displayName,
         email: result.user.email,

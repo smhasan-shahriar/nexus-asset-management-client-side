@@ -33,6 +33,9 @@ const SignUpEmployee = () => {
       });
 
       navigate("/");
+      window.location.reload();
+    }).catch((error) => {
+      toast(error.message)
     });
   };
   const onSubmit = async (data) => {
