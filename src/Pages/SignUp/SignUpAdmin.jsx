@@ -61,6 +61,8 @@ const SignUpAdmin = () => {
           });
           navigate('/payment');
         });
+      }).catch((error) => {
+        toast(error.message)
       });
     }
   };

@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import useRole from "../../Hooks/useRole";
 import useAxiosPublic from "../../Hooks/useAxiosPublic";
 import { useQuery } from "@tanstack/react-query";
@@ -9,6 +9,7 @@ import { RiAdminLine, RiUser3Line } from "react-icons/ri";
 
 const AddEmployee = () => {
   const [user, pending] = useRole();
+  const [selectedMembers, setSelectedMembers] = useState([]);
   const navigate = useNavigate()
   const axiosPublic = useAxiosPublic();
   const getNewUsers = async () => {
@@ -45,6 +46,38 @@ const AddEmployee = () => {
   }
   const currentMembers = existingUsers?.length;
   const limit = user?.employeeLimit;
+const handleEmployeeCheck = email => {
+  const isSelected = selectedMembers.includes(email);
+  if (isSelected) {
+    setSelectedMembers((prevSelected) =>
+      prevSelected.filter((selectedEmail) => selectedEmail !== email)
+    );
+  } else {
+    setSelectedMembers((prevSelected) => [...prevSelected, email]);
+  }
+}
+console.log(selectedMembers)
+
+const handleAddSelectedMembers = () => {
+  if (selectedMembers.length > 0) {
+    const emailsToAdd = selectedMembers.map((member) => member);
+   
+    axiosPublic
+      .put("/manage-multiple-member", { emails: emailsToAdd, userCompany: user?.userCompany, companyImage: user?.companyImage  })
+      .then((res) => {
+        if (res.data.modifiedCount > 0) {
+          toast('Selected members added successfully');
+          newUserRefetch();
+          existingUserRefetch();
+          setSelectedMembers([]);
+          window.location.reload();
+        }
+      })
+   
+  }
+};
+
+
 
   return (
     <div>
@@ -80,7 +113,7 @@ const AddEmployee = () => {
               <tr key={index}>
                 <th>
                   <label>
-                    <input type="checkbox" className="checkbox" />
+                    <input type="checkbox" className="checkbox" onChange={()=> handleEmployeeCheck(user?.email)}/>
                   </label>
                 </th>
                 <td>
@@ -105,6 +138,11 @@ const AddEmployee = () => {
             ))}
           </tbody>
         </table>
+      </div>
+      <div className={selectedMembers?.length > 0 ?   `flex justify-center my-5` : `hidden`}>
+        <button onClick={handleAddSelectedMembers} className="btn bg-green-800 text-white">
+              Add Selected Members to the Team
+            </button>
       </div>
     </div>
   );
