@@ -3,9 +3,9 @@ import { Helmet } from "react-helmet";
 import useAxiosPublic from "../../Hooks/useAxiosPublic";
 import useRole from "../../Hooks/useRole";
 import { useQuery } from "@tanstack/react-query";
-import PrintComponent from "../../Components/PrintCompnent/PrintComponent";
-import { PDFDownloadLink } from "@react-pdf/renderer";
 import { toast } from "react-toastify";
+import { PDFDownloadLink } from "@react-pdf/renderer";
+import PrintComponent from "../../Components/PrintCompnent/PrintComponent";
 
 const MyAssets = () => {
   const axiosPublic = useAxiosPublic();
@@ -160,12 +160,20 @@ const MyAssets = () => {
                   )}
                   {asset.status === "approved" ||
                     (asset.status === "returned" && (
-                      <button
-                        onClick={() => handlePrint(asset)}
-                        className="btn bg-green-500 text-white"
-                      >
-                        Print Details
-                      </button>
+                      <>
+                        <div className="inline">
+                          <PDFDownloadLink
+                            document={<PrintComponent data={asset}/>}
+                            fileName="somename.pdf"
+                            className="btn bg-green-500 text-white"
+                          >
+                            {({ blob, url, loading, error }) =>
+                              loading ? "Loading document..." : "Print"
+                            }
+                          </PDFDownloadLink>
+                        </div>{" "}
+                       
+                      </>
                     ))}
                   {(asset.status === "approved" &&
                     asset.assetType === "returnable") ||

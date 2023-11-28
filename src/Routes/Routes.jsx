@@ -22,6 +22,7 @@ import MyTeam from '../Pages/MyTeam/MyTeam';
 import PrivateRoutes from './PrivateRoutes';
 import AdminRoute from './AdminRoute';
 import UpdateAsset from '../Pages/UpdateAsset/UpdateAsset';
+import PrintComponent from '../Components/PrintCompnent/PrintComponent';
 
 
 export const router = createBrowserRouter([
@@ -105,6 +106,10 @@ export const router = createBrowserRouter([
         {
           path: "/packages",
           element: <OurPackages></OurPackages>
+        },
+        {
+          path: "/print",
+          element:  <PrintComponent></PrintComponent>
         }
         
 

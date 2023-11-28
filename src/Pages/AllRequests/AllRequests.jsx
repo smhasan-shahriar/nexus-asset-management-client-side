@@ -4,7 +4,6 @@ import { useQuery } from '@tanstack/react-query';
 import useRole from '../../Hooks/useRole';
 import { Helmet } from 'react-helmet';
 import { toast } from 'react-toastify';
-import PrintComponent from '../../Components/PrintCompnent/PrintComponent';
 
 const AllRequests = () => {
     const axiosPublic = useAxiosPublic()
