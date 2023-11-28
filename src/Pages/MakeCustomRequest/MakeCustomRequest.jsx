@@ -41,7 +41,7 @@ const MakeCustomRequest = () => {
       <h1 className="text-5xl w-full bg-black flex justify-center items-center text-white py-20">
         Make a custom Request
       </h1>
-      <form onSubmit={handleSubmit} className="card-body">
+      <form onSubmit={handleSubmit} className="card-body"  style={{"minHeight" : "calc(100vh - 356px)"}}>
         <div className="flex lg:gap-5 flex-col lg:flex-row">
           <div className="form-control flex-1">
             <label className="label">

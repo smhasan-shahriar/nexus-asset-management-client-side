@@ -121,7 +121,7 @@ const MyAssets = () => {
           </div>
         </form>
       </div>
-      <div className="overflow-x-auto">
+      <div className="overflow-x-auto "  style={{"minHeight" : "calc(100vh - 446px)"}}>
         <table className="table table-zebra">
           {/* head */}
           <thead>

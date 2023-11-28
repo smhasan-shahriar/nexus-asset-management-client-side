@@ -5,6 +5,8 @@ import PendingRequestAll from './PendingRequestAll';
 import LimitedStockSection from './LimitedStockSection';
 import MostRequestedAdmin from './MostRequestedAdmin';
 import AssetTypeChart from './AssetTypeChart';
+import TopUserActivity from './TopUserActivity';
+import AssetApproval from './AssetApproval';
 
 
 const HomeAdmin = () => {
@@ -15,6 +17,8 @@ const HomeAdmin = () => {
             <MostRequestedAdmin></MostRequestedAdmin>
             <LimitedStockSection></LimitedStockSection>
             <AssetTypeChart></AssetTypeChart>
+            <TopUserActivity></TopUserActivity>
+            <AssetApproval></AssetApproval>
         </div>
     );
 };
