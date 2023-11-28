@@ -139,7 +139,7 @@ const RequestAsset = () => {
             assetList?.map((asset, index) =>  <tr key={index}>
                 <th>{index + 1}</th>
                 <td>{asset.assetName}</td>
-                <td>{asset.assetType}</td>
+                <td>{asset.assetType === 'returnable' && 'Returnable'}{asset.assetType === 'nonreturnable' && 'Non-returnable'}</td>
                 <td>{parseInt(asset.assetQuantity) !== 0 ? 'Available' : 'Out of Stock'}</td>
                 <td className=""><button onClick={() => handleAddRequest(asset)} disabled={!parseInt(asset.assetQuantity)}  className="btn bg-blue-500 text-white">Request</button></td>
                 

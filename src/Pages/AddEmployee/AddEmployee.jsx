@@ -70,7 +70,7 @@ const handleAddSelectedMembers = () => {
           newUserRefetch();
           existingUserRefetch();
           setSelectedMembers([]);
-          window.location.reload();
+          setTimeout(() => location.reload(), 500)
         }
       })
    
@@ -132,7 +132,7 @@ const handleAddSelectedMembers = () => {
                 <td className="text-xl font-bold"> {user.role === "admin" && <RiAdminLine />}
                         {user.role === "employee" && <RiUser3Line />}</td>
                 <th>
-                  <button disabled= {currentMembers > limit } onClick={() => handleAddEmployee(user.email)} className="btn bg-green-500 text-white">Add</button>
+                  <button disabled= {currentMembers >= limit } onClick={() => handleAddEmployee(user.email)} className="btn bg-green-500 text-white">Add</button>
                 </th>
               </tr>
             ))}
@@ -140,7 +140,7 @@ const handleAddSelectedMembers = () => {
         </table>
       </div>
       <div className={selectedMembers?.length > 0 ?   `flex justify-center my-5` : `hidden`}>
-        <button onClick={handleAddSelectedMembers} className="btn bg-green-800 text-white">
+        <button disabled= {currentMembers >= limit }  onClick={handleAddSelectedMembers} className="btn bg-green-800 text-white">
               Add Selected Members to the Team
             </button>
       </div>

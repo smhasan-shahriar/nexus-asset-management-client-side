@@ -113,7 +113,7 @@ const AllRequests = () => {
                 <tr key={index}>
                   <th>{index + 1}</th>
                   <td>{request.assetName}</td>
-                  <td>{request.assetType}</td>
+                  <td>{request.assetType === 'returnable' && 'Returnable'}{request.assetType === 'nonreturnable' && 'Non-returnable'}</td>
                   <td>{request.userEmail}</td>
                   <td>{request.userName}</td>
                   <td>{new Date(request.requestedDate).toLocaleDateString()}</td>

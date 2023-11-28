@@ -141,7 +141,7 @@ const MyAssets = () => {
               <tr key={index}>
                 <th>{index + 1}</th>
                 <td>{asset.assetName}</td>
-                <td>{asset.assetType}</td>
+                <td>{asset.assetType === 'returnable' && 'Returnable'}{asset.assetType === 'nonreturnable' && 'Non-returnable'}</td>
                 <td>{new Date(asset.requestedDate).toLocaleDateString()}</td>
                 <td>
                   {asset.status === "approved" &&

@@ -70,7 +70,7 @@ const AllCustomRequests = () => {
               <tr key={index}>
                 <th>{index + 1}</th>
                 <td>{request.assetName}</td>
-                <td>{request.assetType}</td>
+                <td>{request.assetType === 'returnable' && 'Returnable'}{request.assetType === 'nonreturnable' && 'Non-returnable'}</td>
                 <td>${request.assetPrice}</td>
                 <td>
                   <img

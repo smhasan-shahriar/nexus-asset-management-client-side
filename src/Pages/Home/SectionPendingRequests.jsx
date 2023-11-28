@@ -26,7 +26,7 @@ const SectionPendingRequests = ({ requests }) => {
                 <tr className="font-semibold" key={index}>
                   <th>{index + 1}</th>
                   <td>{asset.assetName}</td>
-                  <td className="capitalize">{asset.assetType}</td>
+                  <td> {asset.assetType === 'returnable' && 'Returnable'}{asset.assetType === 'nonreturnable' && 'Non-returnable'}</td>
                   <td>{new Date(asset.requestedDate).toLocaleDateString()}</td>
                   <td className="text-red-500 font-bold capitalize">
                     {asset.status}

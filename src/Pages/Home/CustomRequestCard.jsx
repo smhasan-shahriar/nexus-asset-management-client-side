@@ -41,7 +41,7 @@ const CustomRequestCard = ({ data, customRequestListRefetch }) => {
         </figure>
         <div className="card-body">
           <h2 className="card-title">{data.assetName}</h2>
-          <p>Type: {data.assetType}</p>
+          <p>Type: {data.assetType === 'returnable' && 'Returnable'}{data.assetType === 'nonreturnable' && 'Non-returnable'}</p>
           <p>Price: ${data.assetPrice}</p>
           <p>Status: {data.status}</p>
           <div className="card-actions justify-end">

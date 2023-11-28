@@ -12,7 +12,7 @@ const SignUpEmployee = () => {
   const navigate = useNavigate();
   const currentDate = new Date();
   const axiosPublic = useAxiosPublic();
-  const { createUser, updateUserProfile, socialLogIn } = useAuth();
+  const { createUser, updateUserProfile, socialLogIn, logOut } = useAuth();
   const {
     register,
     handleSubmit,
@@ -32,8 +32,8 @@ const SignUpEmployee = () => {
         console.log(res.data);
       });
 
-      navigate("/");
-      window.location.reload();
+      
+      navigate('/')
     }).catch((error) => {
       toast(error.message)
     });
@@ -65,8 +65,8 @@ const SignUpEmployee = () => {
           axiosPublic.post("/users", newUser).then((res) => {
             console.log(res.data);
           });
-          navigate("/");
-          window.location.reload();
+          navigate('/')
+          setTimeout(() => location.reload(), 300)
         });
       }) .catch((error) => {
         toast(error.message)

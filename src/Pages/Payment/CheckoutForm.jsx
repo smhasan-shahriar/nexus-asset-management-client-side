@@ -81,7 +81,7 @@ if (confirmError) {
         .then(res => {
           if(res.data.modifiedCount > 0){
             navigate('/')
-            window.location.reload();
+            setTimeout(() => location.reload(), 300);
             toast(`Payment Successful. your transact id ${paymentIntent.id}`)
           }
         })

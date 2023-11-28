@@ -60,7 +60,7 @@ const SignUpAdmin = () => {
             console.log(res.data);
           });
           navigate('/payment');
-          window.location.reload();
+          setTimeout(() => location.reload(), 300);
         });
       }).catch((error) => {
         toast(error.message)
