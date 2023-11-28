@@ -52,19 +52,21 @@ const SignUpAdmin = () => {
         employeeLimit: 0,
       };
       console.log(newAdminUser);
-      updatePayment(newAdminUser.package)
+      updatePayment(newAdminUser.package);
       console.log(newAdminUser, payment);
-      createUser(data.email, data.password).then((result) => {
-        updateUserProfile(data.name, newAdminUser.image).then(() => {
-          axiosPublic.post("/users", newAdminUser).then((res) => {
-            console.log(res.data);
+      createUser(data.email, data.password)
+        .then((result) => {
+          updateUserProfile(data.name, newAdminUser.image).then(() => {
+            axiosPublic.post("/users", newAdminUser).then((res) => {
+              console.log(res.data);
+            });
+            navigate("/payment");
+            setTimeout(() => location.reload(), 50);
           });
-          navigate('/payment');
-          setTimeout(() => location.reload(), 300);
+        })
+        .catch((error) => {
+          toast(error.message);
         });
-      }).catch((error) => {
-        toast(error.message)
-      });
     }
   };
 
@@ -109,7 +111,7 @@ const SignUpAdmin = () => {
                 </div>
                 <div className="form-control">
                   <label className="label">
-                    <span className="label-text">Company Logo</span>
+                    <span className="label-text">Company Logo (*JPG or PNG)</span>
                   </label>
                   <input
                     {...register("companyImage")}
@@ -119,7 +121,7 @@ const SignUpAdmin = () => {
                 </div>
                 <div className="form-control">
                   <label className="label">
-                    <span className="label-text">Your Image</span>
+                    <span className="label-text">Your Image (*JPG or PNG)</span>
                   </label>
                   <input
                     {...register("userImage")}
@@ -188,7 +190,8 @@ const SignUpAdmin = () => {
                   <label className="label">
                     <span className="label-text">Select a package</span>
                   </label>
-                  <select onChange={e => updatePayment(e.target.value)}
+                  <select
+                    onChange={(e) => updatePayment(e.target.value)}
                     className="select select-bordered w-full"
                     {...register("package")}
                   >

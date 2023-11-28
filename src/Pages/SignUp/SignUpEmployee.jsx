@@ -19,24 +19,25 @@ const SignUpEmployee = () => {
     formState: { errors },
   } = useForm();
   const handleSocialLogin = () => {
-    socialLogIn().then((result) => {
-      console.log(result.user);
-      const newUser = {
-        name: result.user.displayName,
-        email: result.user.email,
-        image: result.user.photoURL,
-        role: "employee",
-        userCompany: "none",
-      };
-      axiosPublic.post("/users", newUser).then((res) => {
-        console.log(res.data);
-      });
+    socialLogIn()
+      .then((result) => {
+        console.log(result.user);
+        const newUser = {
+          name: result.user.displayName,
+          email: result.user.email,
+          image: result.user.photoURL,
+          role: "employee",
+          userCompany: "none",
+        };
+        axiosPublic.post("/users", newUser).then((res) => {
+          console.log(res.data);
+        });
 
-      
-      navigate('/')
-    }).catch((error) => {
-      toast(error.message)
-    });
+        navigate("/");
+      })
+      .catch((error) => {
+        toast(error.message);
+      });
   };
   const onSubmit = async (data) => {
     const image_hosting_key = import.meta.env.VITE_IMAGE_API;
@@ -60,17 +61,19 @@ const SignUpEmployee = () => {
         userCompany: "none",
       };
       console.log(newUser);
-      createUser(data.email, data.password).then((result) => {
-        updateUserProfile(data.name, newUser.image).then(() => {
-          axiosPublic.post("/users", newUser).then((res) => {
-            console.log(res.data);
+      createUser(data.email, data.password)
+        .then((result) => {
+          updateUserProfile(data.name, newUser.image).then(() => {
+            axiosPublic.post("/users", newUser).then((res) => {
+              console.log(res.data);
+            });
+            navigate("/");
+            setTimeout(() => location.reload(), 50);
           });
-          navigate('/')
-          setTimeout(() => location.reload(), 300)
+        })
+        .catch((error) => {
+          toast(error.message);
         });
-      }) .catch((error) => {
-        toast(error.message)
-      });
     }
   };
   return (
@@ -102,7 +105,7 @@ const SignUpEmployee = () => {
                 </div>
                 <div className="form-control">
                   <label className="label">
-                    <span className="label-text">Profile Picture</span>
+                    <span className="label-text">Profile Picture (*JPG or PNG)</span>
                   </label>
                   <input
                     {...register("image")}

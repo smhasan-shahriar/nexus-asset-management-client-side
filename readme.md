@@ -1,5 +1,5 @@
 **Website Name:** Nexus Asset Management
-**Live Link:** https://sensational-taffy-bb51aa.netlify.app/
+**Live Link:** https://sparkly-parfait-a3fbdc.netlify.app/
 
 The project named “Nexus Asset Management” is a robust asset management system for companies which facilitates admins of the company to create and manage asset while employees can request for assets and do a lot of relevant works. The main features of the project are given below.
 
