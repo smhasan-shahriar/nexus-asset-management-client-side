@@ -20,7 +20,7 @@ const SignUpAdmin = () => {
   } = useForm();
   const onSubmit = async (data) => {
     const inputDate = new Date(data.dateOfBirth);
-    if (inputDate > currentDate) {
+    if (inputDate >= currentDate) {
       toast("Date of Birth Should be in the past");
       return;
     }
@@ -48,7 +48,7 @@ const SignUpAdmin = () => {
         companyImage: responseCompany.data.data.display_url,
         role: "admin",
         dateOfBirth: data.dateOfBirth,
-        package: data.package,
+        package: payment,
         employeeLimit: 0,
       };
       console.log(newAdminUser);
@@ -59,9 +59,9 @@ const SignUpAdmin = () => {
           updateUserProfile(data.name, newAdminUser.image).then(() => {
             axiosPublic.post("/users", newAdminUser).then((res) => {
               console.log(res.data);
+              navigate("/packages");
             });
-            navigate("/payment");
-            setTimeout(() => location.reload(), 50);
+            
           });
         })
         .catch((error) => {
@@ -190,16 +190,12 @@ const SignUpAdmin = () => {
                   <label className="label">
                     <span className="label-text">Select a package</span>
                   </label>
-                  <select
-                    onChange={(e) => updatePayment(e.target.value)}
-                    className="select select-bordered w-full"
-                    {...register("package")}
-                  >
-                    <option disabled>Select a Package</option>
-                    <option value="basic">5 Members for $5</option>
-                    <option value="standard">10 Members for $8</option>
-                    <option value="pro">20 Members for $15</option>
-                  </select>
+             
+                </div>
+                <div className="flex flex-wrap gap-5 my-2">
+                    <p className="btn" onClick={()=>{updatePayment('basic')}}>5 Members for $5</p>
+                    <p className="btn" onClick={()=>{updatePayment('standard')}} >10 Members for $8</p>
+                    <p className="btn" onClick={()=>{updatePayment('pro')}} >20 Members for $15</p>
                 </div>
                 <input
                   className="btn btn-primary"

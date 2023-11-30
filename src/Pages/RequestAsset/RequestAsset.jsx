@@ -75,7 +75,7 @@ const RequestAsset = () => {
        <Helmet>
         <title>Nexus | Request Asset</title>
       </Helmet>
-      <h1 className="text-5xl w-full bg-black flex justify-center items-center text-white py-20">
+      <h1 className="text-5xl text-center w-full bg-black flex justify-center items-center text-white py-20">
         Request for an Asset
       </h1>
       <div className=" rounded-lg lg:text-right my-5">

@@ -31,9 +31,15 @@ const SignUpEmployee = () => {
         };
         axiosPublic.post("/users", newUser).then((res) => {
           console.log(res.data);
+          if(res.data.insertedId){
+            navigate("/");
+          }
+          else if(res.data == 'user already exists'){
+            navigate("/");
+          }
         });
 
-        navigate("/");
+        
       })
       .catch((error) => {
         toast(error.message);
@@ -44,7 +50,7 @@ const SignUpEmployee = () => {
     const image_hosting_api = `https://api.imgbb.com/1/upload?key=${image_hosting_key}`;
     const imageFile = { image: data.image[0] };
     const inputDate = new Date(data.dateOfBirth);
-    if (inputDate > currentDate) {
+    if (inputDate >= currentDate) {
       toast("Date of Birth Should be in the past");
       return;
     }
@@ -66,9 +72,11 @@ const SignUpEmployee = () => {
           updateUserProfile(data.name, newUser.image).then(() => {
             axiosPublic.post("/users", newUser).then((res) => {
               console.log(res.data);
+              if(res.data.insertedId){
+                navigate("/");
+              }
             });
-            navigate("/");
-            setTimeout(() => location.reload(), 50);
+          
           });
         })
         .catch((error) => {

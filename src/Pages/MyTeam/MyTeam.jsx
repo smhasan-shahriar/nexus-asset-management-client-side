@@ -34,7 +34,15 @@ const MyTeam = () => {
       <h1 className="text-5xl w-full bg-black flex justify-center items-center text-white py-20">
         My Team
       </h1>
-      <div>
+      {
+        (user?.role === "employee" && user?.userCompany === "none") ? <div className="text-2xl font-bold flex justify-center items-center w-full" style={{"minHeight" : "calc(100vh - 356px)"}}>
+
+        <h1>You are currently not in any team. Please Contact with Your HR</h1>
+
+        </div>
+        :
+        <>
+        <div>
         <h2 className="text-3xl text-center my-10 font-bold">
           Upcoming Events
         </h2>
@@ -141,6 +149,10 @@ const MyTeam = () => {
           </div>
         </div>
       </div>
+        
+        </>
+      }
+      
     </div>
   );
 };
