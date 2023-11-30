@@ -10,7 +10,7 @@ import { RiAdminLine, RiUser3Line } from "react-icons/ri";
 const AddEmployee = () => {
   const [user, pending] = useRole();
   const [selectedMembers, setSelectedMembers] = useState([]);
-  const navigate = useNavigate()
+  const navigate = useNavigate();
   const axiosPublic = useAxiosPublic();
   const getNewUsers = async () => {
     const response = await axiosPublic.get(`/find-users?userCompany=none`);
@@ -27,72 +27,80 @@ const AddEmployee = () => {
     );
     return response.data;
   };
-  const { data: existingUsers, refetch: existingUserRefetch  } = useQuery({
+  const { data: existingUsers, refetch: existingUserRefetch } = useQuery({
     queryKey: ["existingUsers"],
     enabled: !pending,
     queryFn: getExistingUsers,
   });
 
   const handleAddEmployee = (email) => {
-    const updatedUser = {userCompany: user?.userCompany, companyImage: user?.companyImage }
-    axiosPublic.put(`/manage-team-member/${email}`, updatedUser)
-    .then(res => {
-      if(res.data.modifiedCount > 0){
-        toast('team member added successfully')
+    const updatedUser = {
+      userCompany: user?.userCompany,
+      companyImage: user?.companyImage,
+    };
+    axiosPublic.put(`/manage-team-member/${email}`, updatedUser).then((res) => {
+      if (res.data.modifiedCount > 0) {
         newUserRefetch();
         existingUserRefetch();
+        setSelectedMembers([]);
+        setTimeout(() => location.reload(), 50);
       }
-    })
-  }
+    });
+  };
   const currentMembers = existingUsers?.length;
   const limit = user?.employeeLimit;
-const handleEmployeeCheck = email => {
-  const isSelected = selectedMembers.includes(email);
-  if (isSelected) {
-    setSelectedMembers((prevSelected) =>
-      prevSelected.filter((selectedEmail) => selectedEmail !== email)
-    );
-  } else {
-    setSelectedMembers((prevSelected) => [...prevSelected, email]);
-  }
-}
-console.log(selectedMembers)
+  const handleEmployeeCheck = (email) => {
+    const isSelected = selectedMembers.includes(email);
+    if (isSelected) {
+      setSelectedMembers((prevSelected) =>
+        prevSelected.filter((selectedEmail) => selectedEmail !== email)
+      );
+    } else {
+      setSelectedMembers((prevSelected) => [...prevSelected, email]);
+    }
+  };
+  console.log(selectedMembers);
 
-const handleAddSelectedMembers = () => {
-  if (selectedMembers.length > 0) {
-    const emailsToAdd = selectedMembers.map((member) => member);
-   
-    axiosPublic
-      .put("/manage-multiple-member", { emails: emailsToAdd, userCompany: user?.userCompany, companyImage: user?.companyImage  })
-      .then((res) => {
-        if (res.data.modifiedCount > 0) {
-          toast('Selected members added successfully');
-          newUserRefetch();
-          existingUserRefetch();
-          setSelectedMembers([]);
-          setTimeout(() => location.reload(), 500)
-        }
-      })
-   
-  }
-};
+  const handleAddSelectedMembers = () => {
+    if (selectedMembers.length > 0) {
+      const emailsToAdd = selectedMembers.map((member) => member);
 
-
+      axiosPublic
+        .put("/manage-multiple-member", {
+          emails: emailsToAdd,
+          userCompany: user?.userCompany,
+          companyImage: user?.companyImage,
+        })
+        .then((res) => {
+          if (res.data.modifiedCount > 0) {
+            newUserRefetch();
+            existingUserRefetch();
+            setSelectedMembers([]);
+            setTimeout(() => location.reload(), 50);
+          }
+        });
+    }
+  };
 
   return (
     <div>
       <Helmet>
-                <title>Nexus | Add Employee</title>
-            </Helmet>
+        <title>Nexus | Add Employee</title>
+      </Helmet>
       <h1 className="text-5xl w-full bg-black flex justify-center items-center text-white py-20">
         Add Employee
       </h1>
       <h1 className="text-2xl w-full bg-black flex justify-evenly items-center text-white py-10 my-5 px-5">
         <p>Existing Members: {currentMembers}</p>
         <p>Your Limit: {limit}</p>
-        <button onClick={() => navigate("/packages")} className="btn">Increase Limit</button>
+        <button onClick={() => navigate("/packages")} className="btn">
+          Increase Limit
+        </button>
       </h1>
-      <div className="overflow-x-auto"  style={{"minHeight" : "calc(100vh - 524px)"}}>
+      <div
+        className="overflow-x-auto"
+        style={{ minHeight: "calc(100vh - 524px)" }}
+      >
         <table className="table">
           {/* head */}
           <thead>
@@ -113,7 +121,11 @@ const handleAddSelectedMembers = () => {
               <tr key={index}>
                 <th>
                   <label>
-                    <input type="checkbox" className="checkbox" onChange={()=> handleEmployeeCheck(user?.email)}/>
+                    <input
+                      type="checkbox"
+                      className="checkbox"
+                      onChange={() => handleEmployeeCheck(user?.email)}
+                    />
                   </label>
                 </th>
                 <td>
@@ -129,20 +141,37 @@ const handleAddSelectedMembers = () => {
                   </div>
                 </td>
                 <td>{user.name}</td>
-                <td className="text-xl font-bold"> {user.role === "admin" && <RiAdminLine />}
-                        {user.role === "employee" && <RiUser3Line />}</td>
+                <td className="text-xl font-bold">
+                  {" "}
+                  {user.role === "admin" && <RiAdminLine />}
+                  {user.role === "employee" && <RiUser3Line />}
+                </td>
                 <th>
-                  <button disabled= {currentMembers >= limit } onClick={() => handleAddEmployee(user.email)} className="btn bg-green-500 text-white">Add</button>
+                  <button
+                    disabled={currentMembers >= limit}
+                    onClick={() => handleAddEmployee(user.email)}
+                    className="btn bg-green-500 text-white"
+                  >
+                    Add
+                  </button>
                 </th>
               </tr>
             ))}
           </tbody>
         </table>
       </div>
-      <div className={selectedMembers?.length > 0 ?   `flex justify-center my-5` : `hidden`}>
-        <button disabled= {currentMembers >= limit }  onClick={handleAddSelectedMembers} className="btn bg-green-800 text-white">
-              Add Selected Members to the Team
-            </button>
+      <div
+        className={
+          selectedMembers?.length > 0 ? `flex justify-center my-5` : `hidden`
+        }
+      >
+        <button
+          disabled={currentMembers >= limit}
+          onClick={handleAddSelectedMembers}
+          className="btn bg-green-800 text-white"
+        >
+          Add Selected Members to the Team
+        </button>
       </div>
     </div>
   );
