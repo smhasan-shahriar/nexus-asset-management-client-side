@@ -35,7 +35,7 @@ const MyTeam = () => {
         My Team
       </h1>
       {
-        (user?.role === "employee" && user?.userCompany === "none") ? <div className="text-2xl font-bold flex justify-center items-center w-full" style={{"minHeight" : "calc(100vh - 356px)"}}>
+        (user?.role === "employee" && user?.userCompany === "none") ? <div className="text-2xl font-bold flex justify-center items-center w-full text-center" style={{"minHeight" : "calc(100vh - 356px)"}}>
 
         <h1>You are currently not in any team. Please Contact with Your HR</h1>
 

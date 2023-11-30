@@ -46,7 +46,7 @@ const Home = () => {
         </>
       }
       {
-        user && currentUser?.role === "employee" && currentUser?.userCompany === "none" && <div className="text-2xl font-bold flex justify-center items-center min-h-screen w-full">
+        user && currentUser?.role === "employee" && currentUser?.userCompany === "none" && <div className="text-2xl font-bold flex justify-center items-center min-h-screen w-full text-center">
 
         <h1>You are currently not in any team. Please Contact with Your HR</h1>
 

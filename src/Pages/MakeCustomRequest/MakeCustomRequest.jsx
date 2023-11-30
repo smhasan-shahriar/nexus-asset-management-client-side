@@ -42,7 +42,7 @@ const MakeCustomRequest = () => {
         Make a custom Request
       </h1>
       {
-         (currentUser?.role === "employee" && currentUser?.userCompany === "none") ? <div className="text-2xl font-bold flex justify-center items-center w-full" style={{"minHeight" : "calc(100vh - 356px)"}}>
+         (currentUser?.role === "employee" && currentUser?.userCompany === "none") ? <div className="text-2xl font-bold flex justify-center items-center w-full text-center" style={{"minHeight" : "calc(100vh - 356px)"}}>
 
          <h1>You are currently not in any team. Please Contact with Your HR</h1>
  
