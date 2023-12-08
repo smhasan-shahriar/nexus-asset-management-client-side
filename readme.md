@@ -7,4 +7,10 @@ The project named “Nexus Asset Management” is a robust asset management syst
 - **Custom Asset Request:** Employees can create a request for assets which are not yet available in the asset list of the company.
 - **Profile Update:** Any logged in user can update their profile.
 - **Asset & Request Filtering:** The admin users can filter assets and request by users in the related pages. 
-- **Return Functionality:** Users can use any asset and if the asset is returnable they can return the asset back. 
+- **Return Functionality:** Users can use any asset and if the asset is returnable they can return the asset back.
+
+💻 Technologies Used:
+- **React**: for building dynamic user interfaces.
+- **Tailwind CSS**: for utility-first styling.
+- **Express.js**: for building the server-side of web applications.
+- **MongoDB**: for database management.
