@@ -1,6 +1,8 @@
 **Website Name:** Nexus Asset Management
 **Live Link:** https://sparkly-parfait-a3fbdc.netlify.app/
 
+Elevate your company's efficiency with Nexus Asset Management, streamlining asset workflows and empowering administrators and employees through dynamic features.
+
 The project named “Nexus Asset Management” is a robust asset management system for companies which facilitates admins of the company to create and manage asset while employees can request for assets and do a lot of relevant works. The main features of the project are given below.
 
 - **Dynamic Home for Users:** The project allows users to view relevant statistical information in their home page based on their role. Employees can see their request list, their custom request while admins can get real time view of the different statistics and charts related to assets and requests.
