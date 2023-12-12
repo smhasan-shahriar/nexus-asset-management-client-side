@@ -8,6 +8,8 @@ The project named “Nexus Asset Management” is a robust asset management syst
 - **Profile Update:** Any logged in user can update their profile.
 - **Asset & Request Filtering:** The admin users can filter assets and request by users in the related pages. 
 - **Return Functionality:** Users can use any asset and if the asset is returnable they can return the asset back.
+- **Top User Activity:** Admin can get a quick glimpse of top user activity based on request in the customized homepage.
+- **Request Status:** Admin can get real time state of the percentage of request accepted directly in the homepage.
 
 💻 Technologies Used:
 - **React**: for building dynamic user interfaces.
